@@ -14,18 +14,7 @@
 // Pruebas
 Route::get('/test', function()
 {
-   $statics_printed = Audit::with(array('actor','user','pieces' => function($query) {
-                $query->with('topic','type')
-                      ->orderBy('actor_id', 'ASC');
-            }))
-            ->where('character_id',531)
-            ->where('type','i')
-            ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-            ->get();
-
-    $actors = Actor::with('audit')->where('status',1)->get();
-
-    return $actors;
+    return "";
 });
 
 // Entrada Inicial
@@ -46,7 +35,7 @@ Route::post('adm/login', 'AdminAuthController@authLogin');
 Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
 {
     // Dashboard
-    Route::get('/', 'HomeController@dashboard');
+    Route::get('/', 'ControlPanelController@reportPrinted');
 
     // Peronajes
 

@@ -5,6 +5,7 @@ class HomeController extends BaseController {
 	// Dashboard
 	public function dashboard()
 	{
+
 		// Informacion del actor
 		$actor 				= Actor::find(1);
 
@@ -17,7 +18,8 @@ class HomeController extends BaseController {
 		// Parametros a pasar a la vista
 		$params 			= array(
 								'actor' 	=> $actor,
-								'actors' 	=> $actors
+								'actors' 	=> $actors,
+								'active' 	=> 212
 							  );
 
 		// Renderizado de la vista

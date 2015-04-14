@@ -372,50 +372,13 @@
                                 <a href="#" class="sidebar-nav-menu {{ isset($main_active) && $main_active == 'characters' ? 'open' : '' }}"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Personajes</a>
                                 <ul {{ isset($main_active) && $main_active == 'characters' ? 'style="display: block;"' : '' }}>
                                     <li>
-                                        <a href="{{ URL::to('cp/character/531') }}" data-id="531" {{ isset($active) && $active == "531" ? 'class="active"' : '' }}>Ricardo Villanueva Lomelí <span class="count-531"></span></a>
+                                        <a href="{{ URL::to('cp/character/212') }}" data-id="212" {{ isset($active) && $active == "212" ? 'class="active"' : '' }}>Claudia Artemisa Pavlovich Arellano <span class="count-212"></span></a>
                                     </li>
                                     <li>
-                                        <a href="{{ URL::to('cp/character/532') }}" data-id="532" {{ isset($active) && $active == "532" ? 'class="active"' : '' }}>Enrique Alfaro Ramírez <span class="count-532"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/533') }}" data-id="533" {{ isset($active) && $active == "533" ? 'class="active"' : '' }}>Alfonso Petersen Farah <span class="count-533"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/668') }}" data-id="668" {{ isset($active) && $active == "668" ? 'class="active"' : '' }}>Guillermo Cienfuegos Pérez <span class="count-668"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/703') }}" data-id="703" {{ isset($active) && $active == "703" ? 'class="active"' : '' }}>Celia Fausto Lizaola <span class="count-703"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/700') }}" data-id="700" {{ isset($active) && $active == "700" ? 'class="active"' : '' }}>Proceso Electoral <span class="count-700"></span></a>
-                                    </li>
-
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/537') }}" data-id="537" {{ isset($active) && $active == "537" ? 'class="active"' : '' }}>PRI Jalisco <span class="count-537"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/538') }}" data-id="538" {{ isset($active) && $active == "538" ? 'class="active"' : '' }}>PAN Jalisco <span class="count-538"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/539') }}" data-id="539" {{ isset($active) && $active == "539" ? 'class="active"' : '' }}>PRD Jalisco <span class="count-539"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/540') }}" data-id="540" {{ isset($active) && $active == "540" ? 'class="active"' : '' }}>MC Jalisco <span class="count-540"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/1610') }}" data-id="1610" {{ isset($active) && $active == "1610" ? 'class="active"' : '' }}>PT Jalisco <span class="count-1610"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ URL::to('cp/character/780') }}" data-id="780" {{ isset($active) && $active == "780" ? 'class="active"' : '' }}>Otros actores <span class="count-780"></span></a>
+                                        <a href="{{ URL::to('cp/character/926') }}" data-id="926" {{ isset($active) && $active == "926" ? 'class="active"' : '' }}>Javier Gándara Magaña <span class="count-926"></span></a>
                                     </li>
                                 </ul>
                             </li>
-                            <!-- @if(Auth::user()->role_id <= 1)
-                            <li>
-                                <a href="{{ URL::to("cp/report") }}" {{ isset($active) && $active=="report"?'class="active"':'' }}><i class="gi gi-notes_2 sidebar-nav-icon"></i>Reportes</a>
-                            </li>
-                            @endif -->
-                            <!-- /Notas -->
 
                             <!-- /Electronicos -->
                             <li class="sidebar-header">
@@ -424,27 +387,16 @@
                             <li>
                                 <a href="{{ URL::to("cp/report/printed") }}" {{ isset($active) && $active=="impresos"?'class="active"':'' }}><i class="gi gi-notes_2 sidebar-nav-icon"></i>Impresos</a>
                             </li>
-                            <li>
-                                <a href="{{ URL::to("cp/report/electronics") }}" {{ isset($active) && $active=="electronicos"?'class="active"':'' }}><i class="gi gi-imac sidebar-nav-icon"></i>Electronicos</a>
-                            </li>
-                            <!-- /Electronicos -->
-
-                            <!-- /Electronicos -->
-                            <li class="sidebar-header">
-                                <span class="sidebar-header-title">Electronicos</span>
-                            </li>
-                            <li>
-                                <a href="{{ URL::to("cp/electronic") }}" {{ isset($active) && $active=="electronic"?'class="active"':'' }}><i class="gi gi-wifi_alt sidebar-nav-icon"></i>Captura</a>
-                            </li>
-                            <!-- /Electronicos -->
 
                             <!-- /Notas -->
+                            <!--
                             <li class="sidebar-header">
                                 <span class="sidebar-header-title">Misceláneos</span>
                             </li>
                             <li>
                                 <a href="{{ URL::to("cp/misc/catalogs") }}" {{ isset($active) && $active=="catalogs"?'class="active"':'' }}><i class="gi gi-book sidebar-nav-icon"></i>Catalogos</a>
                             </li>
+                            -->
                             <!-- /Notas -->
                         </ul>
                         <!-- END Sidebar Navigation -->

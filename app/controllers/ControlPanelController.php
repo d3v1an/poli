@@ -5,82 +5,20 @@ class ControlPanelController extends BaseController {
 	// Pagina principal
 	public function dashboard()
 	{
-		//if (!Auth::check())
-        //{
-            // Si está autenticado lo mandamos a la raíz donde estara el mensaje de bienvenida.
-        //    return Redirect::to('cp/login');
-        //}
-
 		return View::make('cp.dashboard');
-	}
-
-	/**
-	 * [report description]
-	 * @return [type] [description]
-	 */
-	public function report()
-	{
-		$actor = Actor::where('rf_id',531)->first();
-
-		$audit = Audit::with(array('actor','user','pieces' => function($query) {
-				$query->with('topic','type')
-					  ->orderBy('actor_id', 'ASC');
-			}))
-            ->where('character_id',531)
-            ->where('type','i')
-            ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-            ->get();
-
-        $a_count = count($audit);
-
-        if($a_count > 0) {
-        	for ($i=0; $i < $a_count; $i++) {
-
-        		$rest 					= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/notice/' . $audit[$i]->note_id);
-				$notice 				= json_decode($rest);
-
-				$audit[$i]['notice']	= $notice->notice[0];
-
-				$p_count = $audit[$i]->pieces->count();
-				$tmp_act = array();
-
-				foreach ($audit[$i]->pieces as $p) {
-                    if(!in_array( $p->actor->name, $tmp_act, true)){
-                        array_push($tmp_act,  $p->actor->name);
-                    }
-                }
-
-				$audit[$i]['actors'] = $tmp_act;
-        	}
-        }
-
-		$actors = Actor::with(array(
-                            'audit' => function($query) {
-                                $query->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() ); 
-                            }))
-                            ->where('status',1)
-                            ->get();
-		$params = array(
-					'actor' 	=> $actor,
-					'actors' 	=> $actors,
-					'audits' 	=> $audit,
-					'aid' 		=> 531
-				);
-
-		return View::make('cp.report')->with($params);
 	}
 
 
 	// Reporte por defecto de impresos
 	public function reportPrinted()
 	{
-		$actor = Actor::where('rf_id',531)->first();
+		$actor = Actor::where('rf_id',212)->first();
 
 		$audit = Audit::with(array('actor','user','pieces' => function($query) {
 				$query->with('topic','type')
 					  ->orderBy('actor_id', 'ASC');
 			}))
-            ->where('character_id',531)
+            ->where('character_id',212)
             ->where('type','i')
             ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
             ->get();
@@ -118,7 +56,7 @@ class ControlPanelController extends BaseController {
 					'actor' 	=> $actor,
 					'actors' 	=> $actors,
 					'audits' 	=> $audit,
-					'aid' 		=> 531
+					'aid' 		=> 212
 				);
 
 		return View::make('cp.report')->with($params);
@@ -230,98 +168,6 @@ class ControlPanelController extends BaseController {
 
 		return View::make('cp.report')->with($params);
 	}
-
-	// Reporte por defecto de impresos
-	public function reportElectronic()
-	{
-		$actor 	= Actor::find(1);
-
-		$audit 	= ElectronicNews::with(array('Program','Comunicator','Actor','Audit' => function($query) {
-                    $query->with(array('actor','user','pieces' => function($qq){
-                        $qq->with('actor','topic','type')->orderBy('actor_id', 'ASC');
-                    }));
-                }))
-                ->where('actor_id',1)
-                ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-                ->get();
-
-        $actors = Actor::with(array('enews' => function($query) {
-                    $query->where(  DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() );
-                }))
-                ->where('status',1)
-                ->get();
-
-		$params = array(
-					'actor' 	=> $actor,
-					'actors' 	=> $actors,
-					'audits' 	=> $audit,
-					'aid' 		=> 1
-				);
-
-		return View::make('cp.ereport')->with($params);
-	}
-
-	// Obtenemos la informacion segun rango de fechas de impresos
-	public function reportElectronicRange($aid,$data_init,$data_end)
-	{
-
-		$actor = Actor::find($aid);
-
-		$audit 	= ElectronicNews::with(array('Program','Comunicator','Actor','Audit' => function($query) {
-                    $query->with(array('actor','user','pieces' => function($qq){
-                        $qq->with('actor','topic','type')->orderBy('actor_id', 'ASC');
-                    }));
-                }))
-                ->where('actor_id',$aid)
-                ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_init,$data_end) )
-                ->get();
-
-        $actors = Actor::with(array('enews' => function($query) use($data_init,$data_end) {
-                    $query->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_init,$data_end) );
-                }))
-                ->where('status',1)
-                ->get();
-
-		$params = array(
-					'actor' 	=> $actor,
-					'actors' 	=> $actors,
-					'audits' 	=> $audit,
-					'aid' 		=> $aid
-				);
-
-		return View::make('cp.ereport')->with($params);
-
-	}
-
-	// Obtenemos la informacion por actor de impresos
-	public function reportElectronicArgs($actor)
-	{
-		$_actor = Actor::find($actor);
-
-		$audit 	= ElectronicNews::with(array('Program','Comunicator','Actor','Audit' => function($query) {
-                    $query->with(array('actor','user','pieces' => function($qq){
-                        $qq->with('actor','topic','type')->orderBy('actor_id', 'ASC');
-                    }));
-                }))
-                ->where('actor_id',$actor)
-                ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-                ->get();
-
-        $actors = Actor::with(array('enews' => function($query) {
-                    $query->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() ); 
-                }))
-                ->where('status',1)
-                ->get();
-
-		$params = array(
-					'actor' 	=> $_actor,
-					'actors'	=> $actors,
-					'audits' 	=> $audit,
-					'aid' 		=> $actor
-				);
-
-		return View::make('cp.ereport')->with($params);
-	}	
 
 	// Metodo para exportar a excell
 	public function excel($actor,$ids)

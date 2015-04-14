@@ -35,7 +35,7 @@
                 </div>
                 @endif
                 <ul class="nav nav-tabs" data-toggle="tabs">
-                    <li class="active"><a href="#tab-main">Jalisco <span class="tab-main-count"></span></a></li>
+                    <li class="active"><a href="#tab-main">Sonora <span class="tab-main-count"></span></a></li>
                     <li><a href="#tab-estados">D.F. / Estados <span class="tab-estados-count"></span></a></li>
                     <li><a href="#tab-revistas">Revistas <span class="tab-revistas-count"></span></a></li>
                     <li><a href="#tab-portales">Portales <span class="tab-portales-count"></span></a></li>

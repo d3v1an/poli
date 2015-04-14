@@ -53,14 +53,10 @@ Route::filter('auth', function()
 
 Route::filter('auth.cp', function()
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
+	if (Auth::guest()) {
+		if (Request::ajax()) {
 			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
+		} else {
 			return Redirect::guest('adm/login');
 		}
 	}

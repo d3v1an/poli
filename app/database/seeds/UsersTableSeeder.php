@@ -11,10 +11,8 @@ class UsersTableSeeder extends Seeder {
             'first_name'    => 'Ricardo',
             'last_name'     => 'Madrigal',
             'username'      => 'admin',
-            'email'         => 'ricardom@gacomunicacion.com',
             'password'      =>  Hash::make('admin'),
-            'role_id'		    => 1,
-            'notifications' => 1
+            'role_id'		    => 1
         ]);
 	}
 

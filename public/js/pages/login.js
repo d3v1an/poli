@@ -111,7 +111,7 @@ var Login = function() {
                                 allow_dismiss: true
                             });
 
-                            window.location.href = base_path+'/cp/report';
+                            window.location.href = base_path+'/cp/report/printed';
                             return false;
 
                         } else {

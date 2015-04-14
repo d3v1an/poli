@@ -5,10 +5,9 @@ class AdminAuthController extends \BaseController {
 	// Formulario de login
 	public function login()
 	{
-		if (Auth::check())
-        {
+		if (Auth::check()) {
             // Si está autenticado lo mandamos a la raíz donde estara el mensaje de bienvenida.
-            return Redirect::to('cp/report');
+            return Redirect::to('cp/report/printed');
         }
 
 		return View::make('cp.login');
