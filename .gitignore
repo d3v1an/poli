@@ -1,0 +1,13 @@
+/app/config/database.php
+/bootstrap/compiled.php
+/app/config/rest.php
+app/config/rest.php
+/vendor
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
+/app/config/rest.php
+/public/.htaccess
