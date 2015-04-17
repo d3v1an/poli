@@ -372,10 +372,10 @@
                                 <a href="#" class="sidebar-nav-menu {{ isset($main_active) && $main_active == 'characters' ? 'open' : '' }}"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Personajes</a>
                                 <ul {{ isset($main_active) && $main_active == 'characters' ? 'style="display: block;"' : '' }}>
                                     <li>
-                                        <a href="{{ URL::to('cp/character/212') }}" data-id="212" {{ isset($active) && $active == "212" ? 'class="active"' : '' }}>Claudia Artemisa Pavlovich Arellano <span class="count-212"></span></a>
+                                        <a href="{{ URL::to('cp/character/1398') }}" data-id="1398" {{ isset($active) && $active == "1398" ? 'class="active"' : '' }}>Claudia Artemisa Pavlovich Arellano <span class="count-1398"></span></a>
                                     </li>
                                     <li>
-                                        <a href="{{ URL::to('cp/character/926') }}" data-id="926" {{ isset($active) && $active == "926" ? 'class="active"' : '' }}>Javier Gándara Magaña <span class="count-926"></span></a>
+                                        <a href="{{ URL::to('cp/character/1399') }}" data-id="1399" {{ isset($active) && $active == "1399" ? 'class="active"' : '' }}>Javier Gándara Magaña <span class="count-1399"></span></a>
                                     </li>
                                 </ul>
                             </li>

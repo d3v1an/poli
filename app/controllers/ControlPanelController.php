@@ -12,13 +12,13 @@ class ControlPanelController extends BaseController {
 	// Reporte por defecto de impresos
 	public function reportPrinted()
 	{
-		$actor = Actor::where('rf_id',212)->first();
+		$actor = Actor::where('rf_id',1398)->first();
 
 		$audit = Audit::with(array('actor','user','pieces' => function($query) {
 				$query->with('topic','type')
 					  ->orderBy('actor_id', 'ASC');
 			}))
-            ->where('character_id',212)
+            ->where('character_id',1398)
             ->where('type','i')
             ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
             ->get();
@@ -56,7 +56,7 @@ class ControlPanelController extends BaseController {
 					'actor' 	=> $actor,
 					'actors' 	=> $actors,
 					'audits' 	=> $audit,
-					'aid' 		=> 212
+					'aid' 		=> 1398
 				);
 
 		return View::make('cp.report')->with($params);
