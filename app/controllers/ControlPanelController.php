@@ -177,7 +177,7 @@ class ControlPanelController extends BaseController {
 		$_ids 	= explode(',', $ids);
 
 		$audits = Audit::with(array('actor','pieces' => function($query) {
-                $query->with('actor','topic')
+                $query->with('actor','topic','type')
                       ->orderBy('actor_id', 'ASC')
                       ->orderBy('topic_id', 'ASC');
             }))
@@ -222,6 +222,7 @@ class ControlPanelController extends BaseController {
 	                $a1["tema_1"] = array(
 	                                        'actor'     => $p->actor->name,
 	                                        'tema_1'    => $p->topic->text,
+	                                        'tipo_1' 	=> $p->type->name,
 	                                        'estatus'   => $p->status 
 	                                    );
 	                array_push($aa, $p->id);
@@ -230,9 +231,10 @@ class ControlPanelController extends BaseController {
 	                if($cai==$p->actor_id) {
 	                    if(!in_array($p->id, $aa)) {
 	                        $a1["tema_" . ($i+1)] = array(
-	                                        'actor'                     => $p->actor->name,
+	                                        'actor'				=> $p->actor->name,
 	                                        'tema_' . ($i+1)    => $p->topic->text,
-	                                        'estatus'                   => $p->status 
+	                                        'tipo_' . ($i+1)	=> $p->type->name,
+	                                        'estatus'           => $p->status 
 	                                    );
 	                        array_push($aa, $p->id);
 	                        $i++;
@@ -256,6 +258,7 @@ class ControlPanelController extends BaseController {
 	                    $a2["tema_1"] = array(
 	                                            'actor'     => $p->actor->name,
 	                                            'tema_1'    => $p->topic->text,
+	                                            'tipo_1' 	=> $p->type->name,
 	                                            'estatus'   => $p->status 
 	                                        );
 	                    array_push($aa, $p->id);
@@ -264,9 +267,10 @@ class ControlPanelController extends BaseController {
 	                    if($cai==$p->actor_id) {
 	                        if(!in_array($p->id, $aa)) {
 	                            $a2["tema_" . ($i+1)] = array(
-	                                            'actor'                     => $p->actor->name,
+	                                            'actor'             => $p->actor->name,
 	                                            'tema_' . ($i+1)    => $p->topic->text,
-	                                            'estatus'                   => $p->status 
+	                                            'tipo_' . ($i+1)	=> $p->type->name,
+	                                            'estatus' 			=> $p->status 
 	                                        );
 	                            array_push($aa, $p->id);
 	                            $i++;
@@ -292,6 +296,7 @@ class ControlPanelController extends BaseController {
 	                    $a3["tema_1"] = array(
 	                                            'actor'     => $p->actor->name,
 	                                            'tema_1'    => $p->topic->text,
+	                                            'tipo_1' 	=> $p->type->name,
 	                                            'estatus'   => $p->status 
 	                                        );
 	                    array_push($aa, $p->id);
@@ -300,9 +305,10 @@ class ControlPanelController extends BaseController {
 	                    if($cai==$p->actor_id) {
 	                        if(!in_array($p->id, $aa)) {
 	                            $a3["tema_" . ($i+1)] = array(
-	                                            'actor'                     => $p->actor->name,
+	                                            'actor'             => $p->actor->name,
 	                                            'tema_' . ($i+1)    => $p->topic->text,
-	                                            'estatus'                   => $p->status 
+	                                            'tipo_' . ($i+1)	=> $p->type->name,
+	                                            'estatus'           => $p->status 
 	                                        );
 	                            array_push($aa, $p->id);
 	                            $i++;
@@ -343,208 +349,282 @@ class ControlPanelController extends BaseController {
 	                'Titulo',
 	                'Autor 1',
 	                'Tema 1',
+	                'Tipo 1',
 	                '+',
 	                '-',
 	                '=',
 	                'Tema 2',
+	                'Tipo 2',
 	                '+',
 	                '-',
 	                '=',
 	                'Tema 3',
+	                'Tipo 3',
 	                '+',
 	                '-',
 	                '=',
 	                'Autor 2',
 	                'Tema 1',
+	                'Tipo 1',
 	                '+',
 	                '-',
 	                '=',
 	                'Tema 2',
+	                'Tipo 2',
 	                '+',
 	                '-',
 	                '=',
 	                'Tema 3',
+	                'Tipo 3',
 	                '+',
 	                '-',
 	                '=',
 	                'Autor 3',
 	                'Tema 1',
+	                'Tipo 1',
 	                '+',
 	                '-',
 	                '=',
 	                'Tema 2',
+	                'Tipo 2',
 	                '+',
 	                '-',
 	                '=',
 	                'Tema 3',
+	                'Tipo 3',
 	                '+',
 	                '-',
 	                '='
 	            ));
 
 				//  Fix format
-				$sheet->cells('A2:A100', function($cells) {
+				$sheet->cells('A2:A200', function($cells) {
 	                $cells->setAlignment('left');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('B2:B100', function($cells) {
+	            $sheet->cells('B2:B200', function($cells) {
 	                $cells->setAlignment('left');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('D2:D100', function($cells) {
+	            $sheet->cells('C2:C200', function($cells) {
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('D2:D200', function($cells) {
 	                $cells->setAlignment('left');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('E2:E100', function($cells) {
+	            $sheet->cells('E2:E200', function($cells) {
 	                $cells->setAlignment('left');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('G2:G100', function($cells) {
+	            $sheet->cells('F2:F200', function($cells) {
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('G2:G200', function($cells) {
 	                $cells->setAlignment('left');
 	                $cells->setValignment('middle');
 	            });
-
-	            /**
-	             * Configuracion de fuentes y aliniamiento general de todas las celdas superiores
-	             */
-	            $sheet->cells('A1:AR1', function($cells) {
-	                $cells->setFontWeight('bold');
-	                $cells->setAlignment('center');
-	                $cells->setValignment('middle');
-	            });
-
-	            $sheet->cells('C2:C100', function($cells) {
-	                $cells->setAlignment('center');
-	                $cells->setValignment('middle');
-	            });
-	            $sheet->cells('F2:F100', function($cells) {
-	                $cells->setAlignment('center');
-	                $cells->setValignment('middle');
-	            });
-	            $sheet->cells('H2:H100', function($cells) {
+	            $sheet->cells('H2:H200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('12:1100', function($cells) {
+	            $sheet->cells('12:1200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('J2:J100', function($cells) {
+	            $sheet->cells('J2:J200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('L2:L100', function($cells) {
+	            $sheet->cells('L2:L200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('M2:M100', function($cells) {
+	            $sheet->cells('M2:M200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('N2:N100', function($cells) {
+	            $sheet->cells('N2:N200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('P2:P100', function($cells) {
+	            $sheet->cells('P2:P200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('Q2:Q100', function($cells) {
+	            $sheet->cells('Q2:Q200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('R2:R100', function($cells) {
+	            $sheet->cells('R2:R200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('S2:S100', function($cells) {
+	            $sheet->cells('S2:S200', function($cells) {
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('U2:U100', function($cells) {
+	            $sheet->cells('U2:U200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('V2:V100', function($cells) {
+	            $sheet->cells('V2:V200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('W2:W100', function($cells) {
+	            $sheet->cells('W2:W200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('Y2:Y100', function($cells) {
+	            $sheet->cells('Y2:Y200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('Z2:Z100', function($cells) {
+	            $sheet->cells('Z2:Z200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AA2:AA100', function($cells) {
+	            $sheet->cells('AA2:AA200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AC2:AC100', function($cells) {
+	            $sheet->cells('AC2:AC200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AD2:AD100', function($cells) {
+	            $sheet->cells('AD2:AD200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AE2:AE100', function($cells) {
+	            $sheet->cells('AE2:AE200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AF2:AF100', function($cells) {
+	            $sheet->cells('AF2:AF200', function($cells) {
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AH2:AH100', function($cells) {
+	            $sheet->cells('AH2:AH200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AI2:AI100', function($cells) {
+	            $sheet->cells('AI2:AI200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AJ2:AJ100', function($cells) {
+	            $sheet->cells('AJ2:AJ200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AL2:AL100', function($cells) {
+	            $sheet->cells('AL2:AL200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AM2:AM100', function($cells) {
+	            $sheet->cells('AM2:AM200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
 	            });
-	            $sheet->cells('AN2:AN100', function($cells) {
+	            $sheet->cells('AN2:AN200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AO2:AO200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AP2:AP200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AQ2:AQ200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AR2:AR200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AS2:AS200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AT2:AT200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AT2:AT200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AT2:AT200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AU2:AU200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AV2:AV200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AW2:AW200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AX2:AX200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AY2:AY200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('AZ2:AZ200', function($cells) {
+	            	$cells->setFontWeight('bold');
+	                $cells->setAlignment('center');
+	                $cells->setValignment('middle');
+	            });
+	            $sheet->cells('BA2:BA200', function($cells) {
 	            	$cells->setFontWeight('bold');
 	                $cells->setAlignment('center');
 	                $cells->setValignment('middle');
@@ -553,7 +633,7 @@ class ControlPanelController extends BaseController {
 	            /**
 	             * Altura del la primer celda (Las demas heredan su tamaño)
 	             */
-	            for($i = 2; $i < 100; $i++) {
+	            for($i = 2; $i < 200; $i++) {
 	            	$sheet->setHeight($i, 17);
 	            }
 
@@ -561,26 +641,26 @@ class ControlPanelController extends BaseController {
 	             * Colores de algunas celdas
 	             */
 	            // Verde
-	            $sheet->cells('H1:H100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('L1:L100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('P1:P100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('U1:U100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('Y1:Y100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('AC1:AC100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('AH1:AH100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('AL1:AL100', function($cells) { $cells->setFontColor('#03d100'); });
-	            $sheet->cells('AP1:AP100', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('I1:I200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('N1:N200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('S1:S200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('S1:S200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('AD1:AD200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('AI1:AI200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('AO1:AO200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('AT1:AT200', function($cells) { $cells->setFontColor('#03d100'); });
+	            $sheet->cells('AY1:AY200', function($cells) { $cells->setFontColor('#03d100'); });
 
 	            // Rojo
-	            $sheet->cells('I1:I100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('M1:M100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('Q1:Q100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('V1:V100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('Z1:Z100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('AD1:AD100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('AI1:AI100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('AM1:AM100', function($cells) { $cells->setFontColor('#db0404'); });
-	            $sheet->cells('AQ1:AQ100', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('J1:J200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('O1:O200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('T1:T200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('Z1:Z200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('AE1:AE200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('AJ1:AJ200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('AP1:AP200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('AU1:AU200', function($cells) { $cells->setFontColor('#db0404'); });
+	            $sheet->cells('AZ1:AZ200', function($cells) { $cells->setFontColor('#db0404'); });
 
 	            $i=2;
 	            foreach ($data as $d) {
@@ -594,48 +674,57 @@ class ControlPanelController extends BaseController {
 
 		                (isset($d["actor_1"]["actor"]) ? $d["actor_1"]["actor"]:''),
 		                (isset($d["actor_1"]["tema_1"]) ? $d["actor_1"]["tema_1"]["tema_1"]:''),
+		                (isset($d["actor_1"]["tema_1"]) ? $d["actor_1"]["tema_1"]["tipo_1"]:''),
 		                (isset($d["actor_1"]["tema_1"]) && $d["actor_1"]["tema_1"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_1"]["tema_1"]) && $d["actor_1"]["tema_1"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_1"]["tema_1"]) && $d["actor_1"]["tema_1"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_1"]["tema_2"]) ? $d["actor_1"]["tema_2"]["tema_2"]:''),
+		                (isset($d["actor_1"]["tema_2"]) ? $d["actor_1"]["tema_2"]["tipo_2"]:''),
 		                (isset($d["actor_1"]["tema_2"]) && $d["actor_1"]["tema_2"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_1"]["tema_2"]) && $d["actor_1"]["tema_2"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_1"]["tema_2"]) && $d["actor_1"]["tema_2"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_1"]["tema_3"]) ? $d["actor_1"]["tema_3"]["tema_3"]:''),
+		                (isset($d["actor_1"]["tema_3"]) ? $d["actor_1"]["tema_3"]["tipo_3"]:''),
 		                (isset($d["actor_1"]["tema_3"]) && $d["actor_1"]["tema_3"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_1"]["tema_3"]) && $d["actor_1"]["tema_3"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_1"]["tema_3"]) && $d["actor_1"]["tema_3"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_2"]["actor"]) ? $d["actor_2"]["actor"]:''),
 		                (isset($d["actor_2"]["tema_1"]) ? $d["actor_2"]["tema_1"]["tema_1"]:''),
+		                (isset($d["actor_2"]["tema_1"]) ? $d["actor_2"]["tema_1"]["tipo_1"]:''),
 		                (isset($d["actor_2"]["tema_1"]) && $d["actor_2"]["tema_1"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_2"]["tema_1"]) && $d["actor_2"]["tema_1"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_2"]["tema_1"]) && $d["actor_2"]["tema_1"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_2"]["tema_2"]) ? $d["actor_2"]["tema_2"]["tema_2"]:''),
+		                (isset($d["actor_2"]["tema_2"]) ? $d["actor_2"]["tema_2"]["tipo_2"]:''),
 		                (isset($d["actor_2"]["tema_2"]) && $d["actor_2"]["tema_2"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_2"]["tema_2"]) && $d["actor_2"]["tema_2"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_2"]["tema_2"]) && $d["actor_2"]["tema_2"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_2"]["tema_3"]) ? $d["actor_2"]["tema_3"]["tema_3"]:''),
+		                (isset($d["actor_2"]["tema_3"]) ? $d["actor_2"]["tema_3"]["tipo_3"]:''),
 		                (isset($d["actor_2"]["tema_3"]) && $d["actor_2"]["tema_3"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_2"]["tema_3"]) && $d["actor_2"]["tema_3"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_2"]["tema_3"]) && $d["actor_2"]["tema_3"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_3"]["actor"]) ? $d["actor_3"]["actor"]:''),
 		                (isset($d["actor_3"]["tema_1"]) ? $d["actor_3"]["tema_1"]["tema_1"]:''),
+		                (isset($d["actor_3"]["tema_1"]) ? $d["actor_3"]["tema_1"]["tipo_1"]:''),
 		                (isset($d["actor_3"]["tema_1"]) && $d["actor_3"]["tema_1"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_3"]["tema_1"]) && $d["actor_3"]["tema_1"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_3"]["tema_1"]) && $d["actor_3"]["tema_1"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_3"]["tema_2"]) ? $d["actor_3"]["tema_2"]["tema_2"]:''),
+		                (isset($d["actor_3"]["tema_2"]) ? $d["actor_3"]["tema_2"]["tipo_2"]:''),
 		                (isset($d["actor_3"]["tema_2"]) && $d["actor_3"]["tema_2"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_3"]["tema_2"]) && $d["actor_3"]["tema_2"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_3"]["tema_2"]) && $d["actor_3"]["tema_2"]["estatus"]=='nn'?'1':''),
 
 		                (isset($d["actor_3"]["tema_3"]) ? $d["actor_3"]["tema_3"]["tema_3"]:''),
+		                (isset($d["actor_3"]["tema_3"]) ? $d["actor_3"]["tema_3"]["tipo_3"]:''),
 		                (isset($d["actor_3"]["tema_3"]) && $d["actor_3"]["tema_3"]["estatus"]=='p'?'1':''),
 		                (isset($d["actor_3"]["tema_3"]) && $d["actor_3"]["tema_3"]["estatus"]=='n'?'1':''),
 		                (isset($d["actor_3"]["tema_3"]) && $d["actor_3"]["tema_3"]["estatus"]=='nn'?'1':'')
@@ -643,9 +732,7 @@ class ControlPanelController extends BaseController {
 		            ));
 					$i++;
 	            }
-
-	            //$sheet->cells('H2:H10', function($cells) { $cells->setFontColor('#03d100'); });
-
+				
 	        });
 
 	    })->export('xls');
