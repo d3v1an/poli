@@ -1466,4 +1466,160 @@ class ControlPanelController extends BaseController {
 
 		return "Done";
 	}
+
+	//Generamos el excel del actor seleccionado
+	public function excelFullTb2()
+	{
+
+		$pieces = Piece::with('actor','topic','type','audits')
+				  ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
+				  ->get();
+
+		$data 	= array();
+
+		foreach ($pieces as $p) {
+
+			// Si no esta ligado a una nota lo omitimos
+			if(count($p->audits)<1) continue;
+
+			// Formamos la salida
+			$md 					= array();
+			$md['tipo'] 			= $p->type->name;
+			$md['actor'] 			= ($p->actor->id==1?'CPA':'JGM');
+			$md['calificacion']		= ($p->status=='p'?'Positivo':($p->status=='n'?'Negativo':'Neutral'));
+
+			foreach ($p->audits as $a) {
+
+				$_note  = NoticiasDia::with('periodico')->find($a->note_id);
+				
+				$md['fecha'] 		= $_note->Fecha;
+				$md['periodico']	= $_note->periodico->Nombre;
+				$md['titulo'] 		= $_note->Titulo;
+				$md['pdf']			= ($_note->Categoria==80 || $_note->Categoria==98 ? $_note->Encabezado : "http://www.gaimpresos.com/Periodicos/".$_note->periodico->Nombre.'/'.$_note->Fecha.'/'.$_note->NumeroPagina);
+			}
+
+			$data[] 				= $md;
+
+		}
+
+		$file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
+
+		Excel::create($file_name, function($excel) use($data) {
+
+			$excel->sheet('Reporte', function($sheet) use($data) {
+
+				// Creamos las celdas superiores
+	            $sheet->row(1, array(
+	                'Fecha',
+	                'Medio',
+	                'Tipo',
+	                'Actor',
+	                'Titulo',
+	                'PDF',
+	                'Calificacíon'
+	            ));
+
+	            // Auto filtrado
+	            $sheet->setAutoFilter();
+
+	            // Definimos el ancho para las celdas
+				$sheet->setWidth(array(
+				    'A' => 12,
+				    'B' => 30,
+				    'C'	=> 17,
+				    'D'	=> 9,
+				    'E' => 40,
+				    'F' => 40,
+				    'G' => 14
+				));
+
+				// Definimos la altura de las celdas d elos filtros
+				$sheet->setHeight(1,20);
+
+				// Freeze first row
+				$sheet->freezeFirstRow();
+
+				// A ->
+	            $sheet->cells('A1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+	            $sheet->cells('A1:A2000', function($cell) {
+	                $cell->setAlignment('center');
+	                $cell->setValignment('middle');
+	            });
+
+	            // B ->
+	            $sheet->cells('B1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+
+	            // C ->
+	            $sheet->cells('C1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+
+	            // D ->
+	            $sheet->cells('D1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+	            $sheet->cells('D1:D2000', function($cell) {
+	                $cell->setAlignment('center');
+	                $cell->setValignment('middle');
+	            });
+
+	            // E ->
+	            $sheet->cells('E1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+
+	            // F ->
+	            $sheet->cells('F1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+
+	            // G ->
+	            $sheet->cells('G1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+	            $sheet->cells('G1:G2000', function($cell) {
+	                $cell->setAlignment('center');
+	                $cell->setValignment('middle');
+	            });
+
+	            /**
+	             * Altura del la primer celda (Las demas heredan su tamaño)
+	             */
+	            for($i = 2; $i < 2000; $i++) {
+	            	$sheet->setHeight($i, 17);
+	            }
+
+	            $i=2;
+	            foreach ($data as $d) {
+	            	$sheet->row($i, array(
+
+		                $d["fecha"],
+		                $d["periodico"],
+		                $d["tipo"],
+		                $d["actor"],
+		                $d["titulo"],
+		                $d["pdf"],
+		                $d["calificacion"]
+
+		            ));
+					$i++;
+	            }
+				
+	        });
+
+		})->export('xls');
+
+		return "Done";
+	}
 }

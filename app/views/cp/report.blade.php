@@ -24,8 +24,19 @@
             <div class="block full">
                 <!-- Menu Title -->
                 <div class="block-title clearfix">
-                    <div class="block-options pull-left">
-                        Personajes
+                    <h2>Personajes</h2>
+                    <div class="block-options pull-right">
+                        <div class="btn-group btn-group-sm">
+                            <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default dropdown-toggle enable-tooltip" data-toggle="dropdown" title="Opciónes"><span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
+                                <li>
+                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b-full">Excel Poli (Todos los personajes)</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <a class="btn btn-sm btn-default" title="" data-toggle="tooltip" href="{{ URL::to('cp/excel/export/' . $aid) }}" data-original-title="Exportar a Excel">
+                            <i class="gi gi-disk_save"></i>
+                        </a> -->
                     </div>
                 </div>
                 <!-- END Menu Title -->
