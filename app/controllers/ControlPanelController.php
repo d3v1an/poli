@@ -1315,7 +1315,7 @@ class ControlPanelController extends BaseController {
 		$_ids 	= explode(',', $ids);
 
 		$pieces = Piece::with(array('actor','topic','type','audits' => function($query) use($_ids) {
-					$query->whereIn('note_id',$_ids)
+					$query->whereIn('note_id',$_ids);
 				  }))
 				  ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
 				  ->where('actor_id',$actor)
