@@ -14,7 +14,17 @@
 // Pruebas
 Route::get('/test', function()
 {
-    return "";
+    $audits = Audit::with(array('actor','pieces' => function($query) {
+                $query->with('actor','topic','type')
+                      ->orderBy('actor_id', 'ASC')
+                      ->orderBy('topic_id', 'ASC');
+            }))
+            ->where('character_id',1398)
+            //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
+            //->whereIn('id',$_ids)
+            ->get();
+
+    return $audits;
 });
 
 // Entrada Inicial
@@ -122,8 +132,14 @@ Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
 
     // Excell
 
+        // exportar a excel tipo "a" id's
+        Route::get('/excel/export/ta/{actor}:{ids}', 'ControlPanelController@excelIdsTa');
+
+        // exportar a excel tipo "a" completo
+        Route::get('/excel/export/ta/{actor}', 'ControlPanelController@excelFullTa');
+
         // exportar a excel
-        Route::get('/excel/export/{actor}:{ids}', 'ControlPanelController@excel');
+        Route::get('/excel/export/tb/{actor}:{ids}', 'ControlPanelController@excelIdsTb');
 
     // Electronicos
 

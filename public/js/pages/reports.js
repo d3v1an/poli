@@ -128,8 +128,6 @@ var ReportData   = function(id) {
                 var checkedStatus   = $(this).prop('checked');
                 var table           = $(this).closest('table');
 
-                // console.log($('tbody input:checkbox', table));
-
                 $('tbody input:checkbox', table).each(function() {
                     $(this).prop('checked', checkedStatus);
                     if(checkedStatus==true) _ids.push($(this).data('id'));
@@ -141,19 +139,21 @@ var ReportData   = function(id) {
             	if(isChecked==true) _ids.push($(this).data('id'));
             });
 
-            $("#btn-export").click(function(e){
+            $(".btn-export").click(function(e){
 
             	var _type 	= $(this).data('type');
             	var _actor 	= $(this).data('actor');
             	var _xids 	= _ids.join(',');
 
-            	if(_type=='excel') {
-            		console.log(_ids.length);
-            		if(_ids.length < 1) {
-            			alert('Seleccione al menos un resultado a exportar');
-            			return false;
-            		}
-            		window.location.href = '/cp/excel/export/' + _actor + ':' + _xids;
+            	if(_type=='excel-type-a') {
+            		
+            		if(_ids.length < 1) window.location.href = '/cp/excel/export/ta/' + _actor;
+            		else window.location.href = '/cp/excel/export/ta/' + _actor + ':' + _xids;
+
+            	} else if(_type=='excel-type-b') {
+
+            		if(_ids.length < 1) window.location.href = '/cp/excel/export/tb/' + _actor;
+            		else window.location.href = '/cp/excel/export/tb/' + _actor + ':' + _xids;            		
             	}
 
             	e.preventDefault();
