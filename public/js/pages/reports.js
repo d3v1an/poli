@@ -76,7 +76,7 @@ var ReportData   = function(id) {
 	        	language: 'es',
 	        	format: 'yyyy-mm-dd',
 	        	startDate: '-2m',
-    			endDate: '-2d'
+    			endDate: '-1d'
 	        });
 
 	        $("#data-range-end").datepicker({
