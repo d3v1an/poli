@@ -1312,10 +1312,11 @@ class ControlPanelController extends BaseController {
 	//Generamos el excel del actor seleccionado
 	public function excelFullTb($actor)
 	{
+		$_actor = Actor::where('rf_id',$actor)->first();
 
 		$pieces = Piece::with('actor','topic','type','audits')
 				  ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-				  ->where('actor_id',$actor)
+				  ->where('actor_id',$_actor->id)
 				  ->get();
 
 		$data 	= array();
