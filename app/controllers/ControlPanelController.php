@@ -1310,7 +1310,7 @@ class ControlPanelController extends BaseController {
 	}
 
 	//Generamos el excel del actor seleccionado
-	public function excelIdsTb($actor)
+	public function excelFullTb($actor)
 	{
 
 		$pieces = Piece::with('actor','topic','type','audits')

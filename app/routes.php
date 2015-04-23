@@ -139,7 +139,7 @@ Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
         Route::get('/excel/export/ta/{actor}', 'ControlPanelController@excelFullTa');
 
         // exportar a excel
-        Route::get('/excel/export/tb/{actor}:{ids}', 'ControlPanelController@excelIdsTb');
+        Route::get('/excel/export/tb/{actor}', 'ControlPanelController@excelFullTb');
 
     // Electronicos
 
