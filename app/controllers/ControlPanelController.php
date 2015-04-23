@@ -1310,13 +1310,10 @@ class ControlPanelController extends BaseController {
 	}
 
 	//Generamos el excel del actor seleccionado
-	public function excelIdsTb($actor,$ids)
+	public function excelIdsTb($actor)
 	{
-		$_ids 	= explode(',', $ids);
 
-		$pieces = Piece::with(array('actor','topic','type','audits' => function($query) use($_ids) {
-					$query->whereIn('note_id',$_ids);
-				  }))
+		$pieces = Piece::with('actor','topic','type','audits')
 				  ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
 				  ->where('actor_id',$actor)
 				  ->get();

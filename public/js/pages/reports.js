@@ -150,11 +150,7 @@ var ReportData   = function(id) {
             		if(_ids.length < 1) window.location.href = '/cp/excel/export/ta/' + _actor;
             		else window.location.href = '/cp/excel/export/ta/' + _actor + ':' + _xids;
 
-            	} else if(_type=='excel-type-b') {
-
-            		if(_ids.length < 1) window.location.href = '/cp/excel/export/tb/' + _actor;
-            		else window.location.href = '/cp/excel/export/tb/' + _actor + ':' + _xids;            		
-            	}
+            	} else if(_type=='excel-type-b') window.location.href = '/cp/excel/export/tb/' + _actor;
 
             	e.preventDefault();
             });
