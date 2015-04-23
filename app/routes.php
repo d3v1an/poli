@@ -14,17 +14,12 @@
 // Pruebas
 Route::get('/test', function()
 {
-    $audits = Audit::with(array('actor','pieces' => function($query) {
-                $query->with('actor','topic','type')
-                      ->orderBy('actor_id', 'ASC')
-                      ->orderBy('topic_id', 'ASC');
-            }))
-            ->where('character_id',1398)
-            //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-            //->whereIn('id',$_ids)
-            ->get();
+    $pieces = Piece::with('actor','topic','type','audits')
+                  ->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
+                  ->where('actor_id',1398)
+                  ->get();
 
-    return $audits;
+    return $pieces;
 });
 
 // Entrada Inicial
