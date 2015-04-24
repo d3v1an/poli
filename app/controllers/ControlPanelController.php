@@ -1337,7 +1337,7 @@ class ControlPanelController extends BaseController {
 				$_note  = NoticiasDia::with('periodico')->find($a->note_id);
 				
 				$md['fecha'] 		= $_note->Fecha;
-				$md['autor'] 		= $_note->Autor;
+				$md['autor'] 		= ucwords(strtolower($_note->Autor));
 				$md['periodico']	= $_note->periodico->Nombre;
 				$md['titulo'] 		= $_note->Titulo;
 				$md['pdf']			= ($_note->Categoria==80 || $_note->Categoria==98 ? $_note->Encabezado : "http://www.gaimpresos.com/Periodicos/".$_note->periodico->Nombre.'/'.$_note->Fecha.'/'.$_note->NumeroPagina);
@@ -1373,7 +1373,7 @@ class ControlPanelController extends BaseController {
 				    'A' => 12,
 				    'B' => 30,
 				    'C'	=> 17,
-				    'D'	=> 9,
+				    'D'	=> 15,
 				    'E'	=> 9,
 				    'F' => 40,
 				    'G' => 40,
