@@ -1507,6 +1507,7 @@ class ControlPanelController extends BaseController {
 				$_note  = NoticiasDia::with('periodico')->find($a->note_id);
 				
 				$md['fecha'] 		= $_note->Fecha;
+				$md['autor'] 		= ucwords(strtolower($_note->Autor));
 				$md['periodico']	= $_note->periodico->Nombre;
 				$md['titulo'] 		= $_note->Titulo;
 				$md['pdf']			= ($_note->Categoria==80 || $_note->Categoria==98 ? $_note->Encabezado : "http://www.gaimpresos.com/Periodicos/".$_note->periodico->Nombre.'/'.$_note->Fecha.'/'.$_note->NumeroPagina);
@@ -1527,6 +1528,7 @@ class ControlPanelController extends BaseController {
 	                'Fecha',
 	                'Medio',
 	                'Tipo',
+	                'Autor',
 	                'Actor',
 	                'Titulo',
 	                'PDF',
@@ -1541,10 +1543,11 @@ class ControlPanelController extends BaseController {
 				    'A' => 12,
 				    'B' => 30,
 				    'C'	=> 17,
-				    'D'	=> 9,
-				    'E' => 40,
+				    'D'	=> 22,
+				    'E'	=> 9,
 				    'F' => 40,
-				    'G' => 14
+				    'G' => 40,
+				    'H' => 14
 				));
 
 				// Definimos la altura de las celdas d elos filtros
@@ -1590,19 +1593,29 @@ class ControlPanelController extends BaseController {
 	            	$cell->setFontWeight('bold');
 	            	$cell->setFontSize(13);
 	            });
+	            $sheet->cells('E1:E2000', function($cell) {
+	                $cell->setAlignment('center');
+	                $cell->setValignment('middle');
+	            });
 
-	            // F ->
+	            // E ->
 	            $sheet->cells('F1', function($cell) {
 	            	$cell->setFontWeight('bold');
 	            	$cell->setFontSize(13);
 	            });
 
-	            // G ->
+	            // F ->
 	            $sheet->cells('G1', function($cell) {
 	            	$cell->setFontWeight('bold');
 	            	$cell->setFontSize(13);
 	            });
-	            $sheet->cells('G1:G2000', function($cell) {
+
+	            // G ->
+	            $sheet->cells('H1', function($cell) {
+	            	$cell->setFontWeight('bold');
+	            	$cell->setFontSize(13);
+	            });
+	            $sheet->cells('H1:H2000', function($cell) {
 	                $cell->setAlignment('center');
 	                $cell->setValignment('middle');
 	            });
@@ -1621,6 +1634,7 @@ class ControlPanelController extends BaseController {
 		                $d["fecha"],
 		                $d["periodico"],
 		                $d["tipo"],
+		                $d["autor"],
 		                $d["actor"],
 		                $d["titulo"],
 		                $d["pdf"],
