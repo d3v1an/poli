@@ -1373,7 +1373,7 @@ class ControlPanelController extends BaseController {
 				    'A' => 12,
 				    'B' => 30,
 				    'C'	=> 17,
-				    'D'	=> 19,
+				    'D'	=> 22,
 				    'E'	=> 9,
 				    'F' => 40,
 				    'G' => 40,
