@@ -44,9 +44,9 @@ Route::get('/test', function()
 
             if($created->diff($now)->days < 1) {
                 $_note  = NoticiasDia::with('periodico')->find($a->note_id);
-            } else if($created->diff($now)->days >= 1 && $created->diff($now)->days <= 7) {
+            } else if($created->diff($now)->days >= 1 && $created->diff($now)->days <= 6) {
                 $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
-            } else if ($created->diff($now)->days >= 7) {
+            } else if ($created->diff($now)->days >= 6) {
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
             
