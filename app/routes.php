@@ -44,9 +44,9 @@ Route::get('/test', function()
 
             if($created->diff($now)->days < 1) {
                 $_note  = NoticiasDia::with('periodico')->find($a->note_id);
-            } else if($created->diff($now)->days >= 1 && $created->diff($now)->days <= 6) {
+            } else if($created->diff($now)->days >= 1 && $created->diff($now)->days <= 7) {
                 $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
-            } else if ($created->diff($now)->days >= 6) {
+            } else if ($created->diff($now)->days >= 7) {
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
             
@@ -60,6 +60,8 @@ Route::get('/test', function()
         $data[]                 = $md;
 
     }
+
+    return $data;
 
     $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
