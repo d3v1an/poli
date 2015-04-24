@@ -71,7 +71,7 @@ Route::get('/test', function()
 
     }
 
-    return $data;
+    //return $data;
 
     $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
