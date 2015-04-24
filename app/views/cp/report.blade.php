@@ -79,7 +79,7 @@
                                 </li>
                                 <li class="dropdown-header">Exportar</li>
                                 <li>
-                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b" data-actor="{{ $aid }}">Excel Poli (Full)</a>
+                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b" data-actor="{{ $aid }}">Excel Poli (Personaje)</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
