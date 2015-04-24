@@ -21,6 +21,16 @@ Route::get('/test', function()
                   //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
                   ->get();
 
+    $wth = array();
+
+    foreach ($pieces as $p) {
+        if(count($p->audits)<1) $wth[] = $p;
+    }
+
+    return Response::json($wth);
+
+    ////////////////////////////////////////
+
     $data   = array();
 
     foreach ($pieces as $p) {
