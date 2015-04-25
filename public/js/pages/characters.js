@@ -283,7 +283,7 @@ var CharacterData   = function(id) {
                                             .attr('allowtransparency','false')
                                             .attr('width','100%')
                                             .attr('height', '600')
-                                            .attr('src','http://' + _res_ip + '/siscap.la/public/boards/cut/' + _file_path+'#view=fit&scrollbar=0');
+                                            .attr('src','http://www.gaimpresos.com/boards/cut/' + _file_path+'#view=fit&scrollbar=0');
                             
                                 $("#modal-doc-title").html('Recorte de testigo');
                                 $("#modal-doc-body").html(_cobject);
@@ -297,7 +297,7 @@ var CharacterData   = function(id) {
                                             .attr('allowtransparency','false')
                                             .attr('width','100%')
                                             .attr('height', '600')
-                                            .attr('src','http://' + _res_ip + '/siscap.la/public' + _file_path+'#view=fit&scrollbar=0');
+                                            .attr('src','http://www.gaimpresos.com/' + _file_path+'#view=fit&scrollbar=0');
 
                                 $("#modal-doc-title").html('Testigo en PDF');
                                 $("#modal-doc-body").html(_cobject);
@@ -308,7 +308,7 @@ var CharacterData   = function(id) {
                                 var _cobject = $('<img></img>')
                                         .attr('id','image_modal_content_tmp')
                                         .attr('class','img-responsive')
-                                        .attr('src','http://' + _res_ip + '/siscap.la/public' + _file_path);
+                                        .attr('src','http://www.gaimpresos.com/' + _file_path);
 
                                 $("#modal-doc-title").html('Testigo en imagen');
                                 $("#modal-doc-body").html(_cobject);
