@@ -23,6 +23,8 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
               ->where('actor_id',$_actor->id)
               ->get();
 
+    return $pieces;
+
     $data   = array();
 
     foreach ($pieces as $p) {
