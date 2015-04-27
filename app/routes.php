@@ -55,10 +55,10 @@ Route::get('/test', function()
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
 
-            // if(!isset($_note->Fecha)) {
-            //     $mamo = $_note;
-            //     break;
-            // }
+            if(!isset($_note->Fecha)) {
+                $mamo = $_note;
+                break;
+            }
             
             $md['fecha']        = $_note->Fecha;
             $md['autor']        = ucwords(strtolower($_note->Autor));
@@ -69,10 +69,10 @@ Route::get('/test', function()
 
         $data[]                 = $md;
 
-        // if(!is_null($mamo)) {
-        //     $data = $mamo;
-        //     break;
-        // }
+        if(!is_null($mamo)) {
+            $data = $mamo;
+            break;
+        }
 
     }
 
