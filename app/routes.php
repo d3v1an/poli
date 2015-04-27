@@ -27,14 +27,6 @@ Route::get('/test', function()
     foreach ($pieces as $p) {
 
         // Si no esta ligado a una nota lo omitimos
-        if(count($p->audits)<1) $data[] = $p;
-    }
-    
-    return $data;
-
-    foreach ($pieces as $p) {
-
-        // Si no esta ligado a una nota lo omitimos
         if(count($p->audits)<1) continue;
 
         // Formamos la salida
@@ -42,6 +34,8 @@ Route::get('/test', function()
         $md['tipo']             = $p->type->name;
         $md['actor']            = ($p->actor->id==1?'CPA':'JGM');
         $md['calificacion']     = ($p->status=='p'?'Positivo':($p->status=='n'?'Negativo':'Neutral'));
+
+        $mamo = null;
 
         foreach ($p->audits as $a) {
 
@@ -58,6 +52,11 @@ Route::get('/test', function()
             } else if ($created->diff($now)->days >= 7) {
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
+
+            if(!$_note) {
+                $mamo = $a;
+                break;
+            }
             
             $md['fecha']        = $_note->Fecha;
             $md['autor']        = ucwords(strtolower($_note->Autor));
@@ -68,9 +67,14 @@ Route::get('/test', function()
 
         $data[]                 = $md;
 
+        if(!is_null($mamo)) {
+            $data = $mamo;
+            break;
+        }
+
     }
 
-    //return $data;
+    return $data;
 
     $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
