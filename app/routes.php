@@ -12,14 +12,14 @@
 */
 
 // Pruebas
-Route::get('/test', function()
+Route::get('/test/{$adcot}:{data_init}:{data_end}', function()
 {
     
     $_actor = Actor::where('rf_id',$actor)->first();
 
     $pieces = Piece::with('actor','topic','type','audits')
               //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-              ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_in,$data_end) )
+              ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_init,$data_end) )
               ->where('actor_id',$_actor->id)
               ->get();
 
