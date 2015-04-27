@@ -25,7 +25,7 @@ Route::get('/test', function()
                   
     $data   = array();
 
-    return $p;
+    return $pieces;
 
     foreach ($pieces as $p) {
 
