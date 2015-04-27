@@ -30,7 +30,7 @@ Route::get('/test', function()
     foreach ($pieces as $p) {
 
         // Si no esta ligado a una nota lo omitimos
-        if(!isset($p->audits)) continue;
+        if(count($p->audits)<1) continue;
 
         // Formamos la salida
         $md                     = array();
