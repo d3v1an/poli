@@ -58,7 +58,7 @@ Route::get('/test', function()
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
 
-            if(!$_note) {
+            if(is_null($_note)) {
                 $mamo = $_note;
                 break;
             }
