@@ -20,6 +20,7 @@ Route::get('/test', function()
     $pieces = Piece::with('actor','topic','type','audits')
                   //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
                   ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array('2015-04-20','2015-04-21') )
+                  ->where('id',137)
                   ->get();
                   
     $data   = array();
@@ -46,11 +47,6 @@ Route::get('/test', function()
             $created    = new Carbon($a->created_at);
             $now        = Carbon::now();
 
-            // if(!$_note) {
-            //     $mamo = $created->diff($now)->days;
-            //     break;
-            // }
-
             if($created->diff($now)->days < 1) {
                 $_note  = NoticiasDia::with('periodico')->find($a->note_id);
             } else if($created->diff($now)->days >= 1 && $created->diff($now)->days < 7) {
@@ -59,10 +55,10 @@ Route::get('/test', function()
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
 
-            if(!isset($_note->Fecha)) {
-                $mamo = $_note;
-                break;
-            }
+            // if(!isset($_note->Fecha)) {
+            //     $mamo = $_note;
+            //     break;
+            // }
             
             $md['fecha']        = $_note->Fecha;
             $md['autor']        = ucwords(strtolower($_note->Autor));
@@ -73,10 +69,10 @@ Route::get('/test', function()
 
         $data[]                 = $md;
 
-        if(!is_null($mamo)) {
-            $data = $mamo;
-            break;
-        }
+        // if(!is_null($mamo)) {
+        //     $data = $mamo;
+        //     break;
+        // }
 
     }
 
