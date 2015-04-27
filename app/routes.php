@@ -23,8 +23,6 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
               ->where('actor_id',$_actor->id)
               ->get();
 
-    return $pieces;
-
     $data   = array();
 
     foreach ($pieces as $p) {
@@ -45,7 +43,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
         foreach ($p->audits as $a) {
 
 
-            $_note  = NoticiasDia::with('periodico')->find($a->note_id);
+            $_note              = NoticiasDia::with('periodico')->find($a->note_id);
 
             if(!$_note) $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
 
