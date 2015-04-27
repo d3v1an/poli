@@ -25,6 +25,8 @@ Route::get('/test', function()
                   
     $data   = array();
 
+    return $p;
+
     foreach ($pieces as $p) {
 
         // Si no esta ligado a una nota lo omitimos
@@ -56,7 +58,7 @@ Route::get('/test', function()
             }
 
             if(!isset($_note->Fecha)) {
-                $mamo = $_note;
+                $mamo = $p;
                 break;
             }
             
