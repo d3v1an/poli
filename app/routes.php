@@ -15,22 +15,23 @@
 Route::get('/test', function()
 {
     
-    //return $created->diff($now)->days;
+    $_actor = Actor::where('rf_id',$actor)->first();
 
     $pieces = Piece::with('actor','topic','type','audits')
-                  //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
-                  ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array('2015-04-20','2015-04-21') )
-                  //->whereIn('id',array(137,138,139,140,141,142))
-                  ->get();
-                  
-    $data   = array();
+              //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
+              ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_in,$data_end) );
+              ->where('actor_id',$_actor->id)
+              ->get();
 
-    //return $pieces;
+    $data   = array();
 
     foreach ($pieces as $p) {
 
         // Si no esta ligado a una nota lo omitimos
-        if(count($p->audits)<1) continue;
+        if(!isset($p->audits)) continue;
+
+        // Contenedor del objeto nota
+        $_note  = null;
 
         // Formamos la salida
         $md                     = array();
@@ -39,28 +40,16 @@ Route::get('/test', function()
         $md['actor']            = ($p->actor->id==1?'CPA':'JGM');
         $md['calificacion']     = ($p->status=='p'?'Positivo':($p->status=='n'?'Negativo':'Neutral'));
 
-        $mamo = null;
-
         foreach ($p->audits as $a) {
 
-            $_note  = null;
 
-            // $created    = new Carbon(date('Y-m-d',strtotime($_note->Fecha)));
-            $created    = new Carbon($a->created_at);
-            $now        = Carbon::now();
+            $_note  = NoticiasDia::with('periodico')->find($a->note_id);
 
-            if($created->diff($now)->days < 1) {
-                $_note  = NoticiasDia::with('periodico')->find($a->note_id);
-            } else if($created->diff($now)->days >= 1 && $created->diff($now)->days < 7) {
-                $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
-            } else if ($created->diff($now)->days >= 7) {
-                $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
-            }
+            if(!$_note) $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
 
-            // if(!isset($_note->Fecha)) {
-            //     $mamo = $p;
-            //     break;
-            // }
+            if(!$_note) $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
+
+            if(!$_note) continue;
             
             $md['fecha']        = $_note->Fecha;
             $md['autor']        = ucwords(strtolower($_note->Autor));
@@ -71,14 +60,7 @@ Route::get('/test', function()
 
         $data[]                 = $md;
 
-        // if(!is_null($mamo)) {
-        //     $data = $mamo;
-        //     break;
-        // }
-
     }
-
-    //return $data;
 
     $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
@@ -210,6 +192,8 @@ Route::get('/test', function()
         });
 
     })->export('xls');
+
+    return "Done";
 });
 
 // Entrada Inicial
@@ -325,6 +309,9 @@ Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
 
         // exportar a excel
         Route::get('/excel/export/tb/{actor}', 'ControlPanelController@excelFullTb');
+
+        // exportar a excel
+        Route::get('/excel/export/tb_range/{actor}:{data_init}:{data_end}', 'ControlPanelController@excelFullTbRange');
 
         // exportar a excel
         Route::get('/excel/export/tb-full', 'ControlPanelController@excelFullTb2');
