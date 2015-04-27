@@ -19,18 +19,9 @@ Route::get('/test', function()
 
     $pieces = Piece::with('actor','topic','type','audits')
                   //->where( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , "=", Carbon::today()->toDateString() )
+                  >whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array('2015-04-20','2015-04-21') )
                   ->get();
-
-    // $wth = array();
-
-    // foreach ($pieces as $p) {
-    //     if(count($p->audits)<1) $wth[] = $p;
-    // }
-
-    // return Response::json($wth);
-
-    ////////////////////////////////////////
-
+                  
     $data   = array();
 
     foreach ($pieces as $p) {
