@@ -59,7 +59,7 @@ Route::get('/test', function()
             }
 
             if(is_null($_note->audits)) {
-                $mamo = $a;
+                $mamo = $created->diff($now)->days;
                 break;
             }
             
