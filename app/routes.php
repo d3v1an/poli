@@ -45,22 +45,12 @@ Route::get('/test', function()
             $created    = new Carbon($a->created_at);
             $now        = Carbon::now();
 
-            // if(!$_note) {
-            //     $mamo = $created->diff($now)->days;
-            //     break;
-            // }
-
             if($created->diff($now)->days < 1) {
                 $_note  = NoticiasDia::with('periodico')->find($a->note_id);
             } else if($created->diff($now)->days >= 1 && $created->diff($now)->days < 7) {
                 $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
             } else if ($created->diff($now)->days >= 7) {
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
-            }
-
-            if(!$_note) {
-                $mamo = $_note;
-                break;
             }
             
             $md['fecha']        = $_note->Fecha;
@@ -72,14 +62,7 @@ Route::get('/test', function()
 
         $data[]                 = $md;
 
-        if(!is_null($mamo)) {
-            $data = $mamo;
-            break;
-        }
-
     }
-
-    return $data;
 
     $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
