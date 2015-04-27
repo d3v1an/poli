@@ -30,7 +30,7 @@ Route::get('/test', function()
     foreach ($pieces as $p) {
 
         // Si no esta ligado a una nota lo omitimos
-        if(count($p->audits)<1) continue;
+        if(!isset($p->audits)) continue;
 
         // Formamos la salida
         $md                     = array();
@@ -57,10 +57,10 @@ Route::get('/test', function()
                 $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
             }
 
-            if(!isset($_note->Fecha)) {
-                $mamo = $p;
-                break;
-            }
+            // if(!isset($_note->Fecha)) {
+            //     $mamo = $p;
+            //     break;
+            // }
             
             $md['fecha']        = $_note->Fecha;
             $md['autor']        = ucwords(strtolower($_note->Autor));
@@ -71,14 +71,14 @@ Route::get('/test', function()
 
         $data[]                 = $md;
 
-        if(!is_null($mamo)) {
-            $data = $mamo;
-            break;
-        }
+        // if(!is_null($mamo)) {
+        //     $data = $mamo;
+        //     break;
+        // }
 
     }
 
-    return $data;
+    //return $data;
 
     $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
