@@ -12,7 +12,7 @@
 */
 
 // Pruebas
-Route::get('/test/{actor}:{data_init}:{data_end}', function()
+Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$data_end)
 {
     
     $_actor = Actor::where('rf_id',$actor)->first();
