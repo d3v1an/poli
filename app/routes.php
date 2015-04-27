@@ -29,7 +29,9 @@ Route::get('/test', function()
         // Si no esta ligado a una nota lo omitimos
         if(count($p->audits)<1) $data[] = $p;
     }
-    return $pieces;
+    
+    return $data;
+
     foreach ($pieces as $p) {
 
         // Si no esta ligado a una nota lo omitimos
