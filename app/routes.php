@@ -49,7 +49,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
             if(!$_note) $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
 
-            if(!$_note) continue;
+            if(!$_note || is_null($_note)) continue;
             
             $md['fecha']        = $_note->Fecha;
             $md['autor']        = ucwords(strtolower($_note->Autor));
