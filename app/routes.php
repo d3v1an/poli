@@ -59,7 +59,7 @@ Route::get('/test', function()
             }
 
             if(!isset($_note->Fecha)) {
-                $mamo = $a;
+                $mamo = $_note;
                 break;
             }
             
