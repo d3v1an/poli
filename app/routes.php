@@ -31,6 +31,7 @@ Route::get('/test', function()
 
         // Formamos la salida
         $md                     = array();
+        $md['id']               = $p->id;
         $md['tipo']             = $p->type->name;
         $md['actor']            = ($p->actor->id==1?'CPA':'JGM');
         $md['calificacion']     = ($p->status=='p'?'Positivo':($p->status=='n'?'Negativo':'Neutral'));
