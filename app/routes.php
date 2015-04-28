@@ -321,10 +321,13 @@ Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
         // exportar a excel
         Route::get('/excel/export/tb/{actor}', 'ControlPanelController@excelFullTb');
 
-        // exportar a excel
+        // exportar a excel por personaje
         Route::get('/excel/export/tb_range/{actor}:{data_init}:{data_end}', 'ControlPanelController@excelFullTbRange');
 
-        // exportar a excel
+        // exportar a excel de todos los personajes con rango de fechas
+        Route::get('/excel/export/tb-full/{data_init}:{data_end}', 'ControlPanelController@excelFullTb2Range');
+
+        // exportar a excel de todos los personajes
         Route::get('/excel/export/tb-full', 'ControlPanelController@excelFullTb2');
 
     // Electronicos
