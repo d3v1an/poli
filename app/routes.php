@@ -190,7 +190,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                 foreach ($data as $d) {
 
                     if(!isset($d['fecha'])) {
-                        pre($d);
+                        var_dump($d);
                         throw new Exception('Mamo');
                     } else {
                         echo "Ok " . $d['id'];
