@@ -1890,7 +1890,7 @@ class ControlPanelController extends BaseController {
 
 		}
 
-		$file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
+		$file_name = 'Reporte Sonora - Completo - ' . $data_init . ' - ' $data_end;
 
 		Excel::create($file_name, function($excel) use($data) {
 
