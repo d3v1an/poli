@@ -57,7 +57,7 @@ class ControlPanelController extends BaseController {
 					'actors' 	=> $actors,
 					'audits' 	=> $audit,
 					'aid' 		=> 1398,
-					'ranged' 	=> true
+					'ranged' 	=> false
 				);
 
 		return View::make('cp.report')->with($params);
