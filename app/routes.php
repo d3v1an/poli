@@ -193,7 +193,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                         var_dump($d);
                         throw new Exception('Mamo');
                     } else {
-                        echo "Ok " . $d['id'];
+                        echo "Ok " . $d['id'] . "\r\n";
                     }
                     continue;
 
