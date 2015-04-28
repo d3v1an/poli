@@ -53,11 +53,13 @@ class ControlPanelController extends BaseController {
                             ->where('status',1)
                             ->get();
 		$params = array(
-					'actor' 	=> $actor,
-					'actors' 	=> $actors,
-					'audits' 	=> $audit,
-					'aid' 		=> 1398,
-					'ranged' 	=> false
+					'actor' 		=> $actor,
+					'actors' 		=> $actors,
+					'audits' 		=> $audit,
+					'aid' 			=> 1398,
+					'ranged' 		=> false,
+					'range_init'	=> "",
+					'range_end'		=> ""
 				);
 
 		return View::make('cp.report')->with($params);
@@ -164,11 +166,13 @@ class ControlPanelController extends BaseController {
                             ->where('status',1)
                             ->get();
 		$params = array(
-					'actor' 	=> $_actor,
-					'actors'	=> $actors,
-					'audits' 	=> $audit,
-					'aid' 		=> $actor,
-					'ranged' 	=> true
+					'actor' 		=> $_actor,
+					'actors'		=> $actors,
+					'audits' 		=> $audit,
+					'aid' 			=> $actor,
+					'ranged' 		=> false,
+					'range_init'	=> "",
+					'range_end'		=> ""
 				);
 
 		return View::make('cp.report')->with($params);
