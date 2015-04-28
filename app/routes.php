@@ -192,7 +192,10 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                     if(!isset($d['fecha'])) {
                         pre($d);
                         throw new Exception('Mamo');
+                    } else {
+                        echo "Ok " . $d['id'];
                     }
+                    continue;
 
                     $sheet->row($i, array(
 
