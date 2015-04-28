@@ -65,8 +65,6 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
         }
 
-        return $data;
-
         $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
         Excel::create($file_name, function($excel) use($data) {
