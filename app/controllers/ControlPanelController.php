@@ -1847,7 +1847,7 @@ class ControlPanelController extends BaseController {
 	}
 
 	// Generamos el excel de todos los actores
-	public function excelFullTb2Range(,$data_init,$data_end)
+	public function excelFullTb2Range($data_init,$data_end)
 	{
 
 		$pieces = Piece::with('actor','topic','type','audits')
