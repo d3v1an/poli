@@ -198,8 +198,8 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
         return "Done";
 
     } catch (Exception $e) {
-        $o = array($data,$e);
-        return $e;
+        $o = array('data' => $data,'ex' => $e);
+        return $o;
     }
 
 });
