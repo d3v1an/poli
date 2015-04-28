@@ -15,6 +15,8 @@
 Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$data_end)
 {
 
+    $data   = array();
+
     try {
 
         $_actor = Actor::where('rf_id',$actor)->first();
@@ -24,8 +26,6 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                   ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_init,$data_end) )
                   ->where('actor_id',$_actor->id)
                   ->get();
-
-        $data   = array();
 
         foreach ($pieces as $p) {
 
@@ -198,7 +198,8 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
         return "Done";
 
     } catch (Exception $e) {
-        return $e;
+        $o = array($data,$e);
+        return $o;
     }
 
 });
