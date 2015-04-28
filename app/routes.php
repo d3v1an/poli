@@ -17,7 +17,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
     $data   = array();
 
-    try {
+    //try {
 
         $_actor = Actor::where('rf_id',$actor)->first();
 
@@ -208,10 +208,10 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
         return "Done";
 
-    } catch (Exception $e) {
-        $o = array('data' => $data,'ex' => $e->getMessage());
-        return $o;
-    }
+    // } catch (Exception $e) {
+    //     $o = array('data' => $data,'ex' => $e->getMessage());
+    //     return $o;
+    // }
 
 });
 
