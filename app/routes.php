@@ -189,7 +189,10 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                 $i=2;
                 foreach ($data as $d) {
 
-                    if(!isset($d['fecha'])) throw new Exception($d);
+                    if(!isset($d['fecha'])) {
+                        pre($d);
+                        throw new Exception('Mamo');
+                    }
 
                     $sheet->row($i, array(
 
