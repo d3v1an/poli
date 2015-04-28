@@ -189,13 +189,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                 $i=2;
                 foreach ($data as $d) {
 
-                    if(!isset($d['fecha'])) {
-                        var_dump($d);
-                        throw new Exception('Mamo');
-                    } else {
-                        echo "Ok " . $d['id'] . "\r\n";
-                    }
-                    continue;
+                    if(!isset($d['fecha'])) continue;
 
                     $sheet->row($i, array(
 
