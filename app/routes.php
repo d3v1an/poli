@@ -17,7 +17,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
     $data   = array();
 
-    //try {
+    try {
 
         $_actor = Actor::where('rf_id',$actor)->first();
 
@@ -65,16 +65,16 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
         }
 
-        $_out = null;
+        // $_out = null;
 
-        foreach ($data as $d) {
-            if(!isset($d['fecha'])) {
-                $_out = $d;
-            }
-            //pre($d);
-        }
+        // foreach ($data as $d) {
+        //     if(!isset($d['fecha'])) {
+        //         $_out = $d;
+        //     }
+        //     //pre($d);
+        // }
 
-        return $_out;
+        // return $_out;
 
         $file_name = 'Reporte Sonora ' . date('Y-m-d.H-i-s');
 
@@ -188,6 +188,9 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
                 $i=2;
                 foreach ($data as $d) {
+
+                    if(!isset($d['fecha'])) throw new Exception('Mamo. - ' . $d['id']);
+
                     $sheet->row($i, array(
 
                         $d["fecha"],
@@ -209,10 +212,10 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
         return "Done";
 
-    // } catch (Exception $e) {
-    //     $o = array('data' => $data,'ex' => $e->getMessage());
-    //     return $o;
-    // }
+    } catch (Exception $e) {
+         $o = array('data' => $data,'ex' => $e->getMessage());
+         return $o;
+    }
 
 });
 
