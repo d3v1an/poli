@@ -199,7 +199,7 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
     } catch (Exception $e) {
         $o = array($data,$e);
-        return $o;
+        return $e;
     }
 
 });
