@@ -37,10 +37,6 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
             // Formamos la salida
             $md                     = array();
-            $md['id']               = $p->id;
-            $md['tipo']             = $p->type->name;
-            $md['actor']            = ($p->actor->id==1?'CPA':'JGM');
-            $md['calificacion']     = ($p->status=='p'?'Positivo':($p->status=='n'?'Negativo':'Neutral'));
 
             foreach ($p->audits as $a) {
 
@@ -52,12 +48,17 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
                 if(!$_note) $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
 
                 if(!$_note || is_null($_note)) continue;
+
+                $md['id']               = $p->id;
+                $md['tipo']             = $p->type->name;
+                $md['actor']            = ($p->actor->id==1?'CPA':'JGM');
+                $md['calificacion']     = ($p->status=='p'?'Positivo':($p->status=='n'?'Negativo':'Neutral'));
                 
-                $md['fecha']        = $_note->Fecha;
-                $md['autor']        = ucwords(strtolower($_note->Autor));
-                $md['periodico']    = $_note->periodico->Nombre;
-                $md['titulo']       = $_note->Titulo;
-                $md['pdf']          = ($_note->Categoria==80 || $_note->Categoria==98 ? $_note->Encabezado : "http://www.gaimpresos.com/Periodicos/".$_note->periodico->Nombre.'/'.$_note->Fecha.'/'.$_note->NumeroPagina);
+                $md['fecha']            = $_note->Fecha;
+                $md['autor']            = ucwords(strtolower($_note->Autor));
+                $md['periodico']        = $_note->periodico->Nombre;
+                $md['titulo']           = $_note->Titulo;
+                $md['pdf']              = ($_note->Categoria==80 || $_note->Categoria==98 ? $_note->Encabezado : "http://www.gaimpresos.com/Periodicos/".$_note->periodico->Nombre.'/'.$_note->Fecha.'/'.$_note->NumeroPagina);
             }
 
             $data[]                 = $md;
