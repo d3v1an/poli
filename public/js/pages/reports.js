@@ -151,9 +151,23 @@ var ReportData   = function(id) {
             		else window.location.href = '/cp/excel/export/ta/' + _actor + ':' + _xids;
 
             	} else if(_type=='excel-type-b') {
-            		window.location.href = '/cp/excel/export/tb/' + _actor;
+
+            		var _ranged 	= $(this).data('ranged');
+            		var _dataInit 	= $(this).data('init');
+            		var _dataEnd 	= $(this).data('end');
+
+            		if(_ranged) window.location.href = '/cp/excel/export/tb_range/' + _actor + ':' + _dataInit + ':' + _dataEnd;
+            		else window.location.href = '/cp/excel/export/tb/' + _actor;
+
             	} else if(_type=='excel-type-b-full') {
-            		window.location.href = '/cp/excel/export/tb-full';
+
+            		var _ranged 	= $(this).data('ranged');
+            		var _dataInit 	= $(this).data('init');
+            		var _dataEnd 	= $(this).data('end');
+
+            		if(_ranged) window.location.href = '/cp/excel/export/tb-full/' + _dataInit + ':' + _dataEnd;
+            		else window.location.href = '/cp/excel/export/tb-full';
+
             	}
 
             	e.preventDefault();

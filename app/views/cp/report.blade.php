@@ -30,7 +30,7 @@
                             <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default dropdown-toggle enable-tooltip" data-toggle="dropdown" title="Opciónes"><span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
                                 <li>
-                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b-full">Excel Poli (Todos los personajes)</a>
+                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b-full" data-ranged="{{ isset($ranged) && $ranged?'true':'false' }}" data-init="{{ isset($range_init)?$range_init:'' }}" data-end="{{ isset($range_end)?$range_end:'' }}">Excel Poli (Todos los personajes)</a>
                                 </li>
                             </ul>
                         </div>
@@ -79,7 +79,7 @@
                                 </li>
                                 <li class="dropdown-header">Exportar</li>
                                 <li>
-                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b" data-actor="{{ $aid }}">Excel Poli (Personaje)</a>
+                                    <a href="javascript:void(0)" class="btn-export" data-type="excel-type-b" data-actor="{{ $aid }}" data-ranged="{{ isset($ranged) && $ranged?'true':'false' }}" data-init="{{ isset($range_init)?$range_init:'' }}" data-end="{{ isset($range_end)?$range_end:'' }}">Excel Poli (Personaje)</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
