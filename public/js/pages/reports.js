@@ -27,7 +27,7 @@ var ReportData   = function(id) {
 	                    _item += '	  <td>';
 	                    _item += '		<div class="btn-group btn-group-xs">';
 	                    _item += '			<button class="btn btn-xs btn-default btn-edit" data-dnote="' + _dnote + '" data-dni="' + i + '" data-id="' + _audits["_" + _dnote][i].pivot.audit_id + '" data-pid="' + _audits["_" + _dnote][i].pivot.piece_id + '" data-aid="' + _audits["_" + _dnote][i].actor_id + '" data-tid="' + _audits["_" + _dnote][i].topic_id + '" data-tyid="' + _audits["_" + _dnote][i].type_id + '" data-sid="' + _audits["_" + _dnote][i].status + '"><i class="gi gi-pencil"></i></button>';
-	                    _item += '			<button class="btn btn-xs btn-danger btn-delete" data-dnote="' + _dnote + '" data-dni="' + i + '" data-id="' + _audits["_" + _dnote][i].pivot.audit_id + '" data-pid="' + _audits["_" + _dnote][i].pivot.piece_id + '" data-aid="' + _audits["_" + _dnote][i].actor_id + '" data-tid="' + _audits["_" + _dnote][i].topic_id + '" data-tyid="' + _audits["_" + _dnote][i].type_id + '" data-sid="' + _audits["_" + _dnote][i].status + '"><i class="gi gi-remove_2"></i></button>';
+	                    //_item += '			<button class="btn btn-xs btn-danger btn-delete" data-dnote="' + _dnote + '" data-dni="' + i + '" data-id="' + _audits["_" + _dnote][i].pivot.audit_id + '" data-pid="' + _audits["_" + _dnote][i].pivot.piece_id + '" data-aid="' + _audits["_" + _dnote][i].actor_id + '" data-tid="' + _audits["_" + _dnote][i].topic_id + '" data-tyid="' + _audits["_" + _dnote][i].type_id + '" data-sid="' + _audits["_" + _dnote][i].status + '"><i class="gi gi-remove_2"></i></button>';
 	                    _item += '		</div>';
 	                    _item += '	  </td>';
 	                    _item += '</tr>';
