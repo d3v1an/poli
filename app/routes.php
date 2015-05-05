@@ -299,6 +299,16 @@ Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
             // Reporte de analisis argumentado
             Route::get('/report/printed/{actor}', 'ControlPanelController@reportPrintedArgs')->where('actor', '[0-9]+');
 
+            // Auditoria de notas calificadas
+            Route::post('/report/printed/audit', 'ControlPanelController@reportPrintedAudit');
+
+            // Auditoria de notas calificadas
+            Route::post('/report/printed/del', 'ControlPanelController@reportPrintedDel');
+
+            // Eliminar toda la auditoria
+            Route::post('/report/printed/audit/del', 'ControlPanelController@reportPrintedAuditDel');
+
+
         // Electronicos
 
             // Reporte de electronicos

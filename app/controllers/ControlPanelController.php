@@ -52,9 +52,17 @@ class ControlPanelController extends BaseController {
                             }))
                             ->where('status',1)
                             ->get();
+
+        $topics = Topic::orderBy('text', 'ASC')->get();
+        $types = Type::orderBy('name', 'ASC')->get();
+
+        //$actors = Program::with('Source','Comunicator')->orderBy('name', 'ASC')->get();
+        //return $actors;
 		$params = array(
 					'actor' 		=> $actor,
 					'actors' 		=> $actors,
+					'topics' 		=> $topics,
+					'types' 		=> $types,
 					'audits' 		=> $audit,
 					'aid' 			=> 1398,
 					'ranged' 		=> false,
@@ -109,9 +117,15 @@ class ControlPanelController extends BaseController {
                             }))
                             ->where('status',1)
                             ->get();
+
+        $topics = Topic::orderBy('text', 'ASC')->get();
+        $types = Type::orderBy('name', 'ASC')->get();
+
 		$params = array(
 					'actor' 		=> $actor,
 					'actors' 		=> $actors,
+					'topics' 		=> $topics,
+					'types' 		=> $types,
 					'audits' 		=> $audit,
 					'aid' 			=> $aid,
 					'ranged' 		=> true,
@@ -165,9 +179,15 @@ class ControlPanelController extends BaseController {
                             }))
                             ->where('status',1)
                             ->get();
+
+        $topics = Topic::orderBy('text', 'ASC')->get();
+        $types = Type::orderBy('name', 'ASC')->get();
+
 		$params = array(
 					'actor' 		=> $_actor,
 					'actors'		=> $actors,
+					'topics' 		=> $topics,
+					'types' 		=> $types,
 					'audits' 		=> $audit,
 					'aid' 			=> $actor,
 					'ranged' 		=> false,
@@ -176,6 +196,98 @@ class ControlPanelController extends BaseController {
 				);
 
 		return View::make('cp.report')->with($params);
+	}
+
+	// Actualizacion de una pieza de auditoria
+	public function reportPrintedAudit()
+	{
+		//return Input::all();
+
+		$audit_id = Input::get('audit_id');
+		$piece_id = Input::get('piece_id');
+		$actor_id = Input::get('character');
+		$topic_id = Input::get('tema');
+		$type_id  = Input::get('tipo');
+		$status   = Input::get('status');
+
+		try {
+
+			$piece = Piece::find($piece_id);
+			$audit = Audit::find($audit_id);
+
+			if(!$piece || !$audit) return Response::json(array('status' => false, 'message' => 'Piesa no localizada'));
+
+			$piece->actor_id = $actor_id;
+			$piece->topic_id = $topic_id;
+			$piece->type_id  = $type_id;
+			$piece->status   = $status;
+
+			if(!$piece->save()) return Response::json(array('status' => false, 'message' => 'La piesa no pudo ser actualizada'));
+
+			$audit->user_id = Auth::user()->id;
+			$audit->save();
+
+			return Response::json(array('status' => true, 'message' => 'Piesa actualizada'));
+
+		} catch (Exception $e) {
+			return Response::json(array('status' => false, 'message' => 'Ocurrio un problema al actualizar la piesa [' . $e->getMessage() . ']'));
+		}
+
+	}
+
+	// Eliminamos una piesa
+	public function reportPrintedDel()
+	{
+		$aid = Input::get('aid');
+		$pid = Input::get('pid');
+
+		try {
+			
+			$audit = Audit::find($aid);
+			$piece = Piece::find($pid);
+
+			if(!$audit || !$piece) return Response::json(array('status' => false,'message' => 'Piesa o auditoria no localizada'));
+
+			$audit->pieces()->detach($pid);
+			$piece->delete();
+
+			return Response::json(array('status' => true,'message' => 'Piesa o eliminada de la auditoria'));
+
+		} catch (Exception $e) {
+			return Response::json(array('status' => false,'message' => 'Ocurrio un problema al eliminar la piesa de la auditoria [' . $e->getMessage() . ']'));
+		}
+	}
+
+	// Eliminamos la auditoria completa
+	public function reportPrintedAuditDel()
+	{
+		$aid = Input::get('aid');
+		$pid = Input::get('pid');
+
+		try {
+			
+			$audit = Audit::with('pieces')->find($aid);
+
+			if(!$audit) return Response::json(array('status' => false,'message' => 'Piesa o auditoria no localizada'));
+
+			$cur_ids = array();
+			foreach($audit->pieces as $p){
+			  $cur_ids[] = $p->id;
+			}
+
+			$audit->pieces()->detach($cur_ids);
+
+			$pieces = Piece::whereIn('id',$cur_ids)->get();
+
+			foreach ($pieces as $p) { $p->delete(); }
+
+			$audit->delete();
+
+			return Response::json(array('status' => true,'message' => 'Auditoria eliminada'));
+
+		} catch (Exception $e) {
+			return Response::json(array('status' => false,'message' => 'Ocurrio un problema al eliminar la auditoria [' . $e->getMessage() . ']'));
+		}
 	}
 
 	// Metodo para exportar a excell

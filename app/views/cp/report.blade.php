@@ -107,12 +107,13 @@
                                 <th>Actores</th>
                                 <th>Auditor</th>
                                 <th>Calificación</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i=0; ?>
                             @foreach($audits as $audit)
-                            <tr>
+                            <tr id="_tr_{{ $audit->id }}">
                                 <td class="text-center"><input type="checkbox" id="checkbox1-{{ $i+1 }}" name="checkbox1-{{ $i+1 }}" data-id="{{ $audit->id }}"></td>
                                 <td>{{ $audit->created_at }}</td>
                                 <td>{{ $audit->notice->Periodico }}</td>
@@ -121,6 +122,7 @@
                                 <td><button title="" data-placement="top" data-html="true" data-content="{{ implode('</br>',$audit->actors) }}" data-toggle="popover" data-trigger="hover" class="btn btn-xs btn-warning">({{ count($audit->actors) }}) Actores</button></td>
                                 <td>{{ $audit->user->username }}</td>
                                 <td><button data-note="{{ $audit->note_id }}" class="btn btn-xs btn-primary btn-cal">Calificación</button></td>
+                                <td><button data-aid="{{ $audit->id }}" data-tid="_tr_{{ $audit->id }}" class="btn btn-xs btn-danger btn-del-audit"><i class="gi gi-remove_2"></i></button></td>
                             </tr>
                             <?php $i++; ?>
                             @endforeach
@@ -171,6 +173,47 @@
                         <tbody>
                         </tbody>
                     </table>
+                    <div id="modal-audit-opts" class="display-none">
+                        <form action="#" id="form-cal-range" name="form-cal-range" method="post" class="form-horizontal form-bordered" onsubmit="return false;">
+                            <input type="hidden" id="audit_id" name="audit_id">
+                            <input type="hidden" id="piece_id" name="piece_id">
+                            <input type="hidden" id="dnote" name="dnote">
+                            <input type="hidden" id="dni" name="dni">
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <select id="character" name="character" class="form-control" size="1">
+                                        @foreach($actors as $a)
+                                        <option value="{{ $a->id }}">{{ $a->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="tema" name="tema" class="form-control" size="1">
+                                        @foreach($topics as $t)
+                                        <option value="{{ $t->id }}">{{ $t->text }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="tipo" name="tipo" class="form-control" size="1">
+                                        @foreach($types as $t)
+                                        <option value="{{ $t->id }}">{{ $t->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="status" name="status" class="form-control" size="1">
+                                        <option value="p">Positiva</option>
+                                        <option value="n">Negativa</option>
+                                        <option value="nn">Neutra</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-success btn-save-audit form-control">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cerrar</button>
