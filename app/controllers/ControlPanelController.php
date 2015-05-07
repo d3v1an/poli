@@ -93,6 +93,10 @@ class ControlPanelController extends BaseController {
         if($a_count > 0) {
         	for ($i=0; $i < $a_count; $i++) {
 
+        		// $_note              = NoticiasDia::with('periodico')->find($a->note_id);
+          //       if(!$_note) $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
+          //       if(!$_note) $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
+
         		$rest 					= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/notice_range/' . $audit[$i]->note_id);
 				$notice 				= json_decode($rest);
 
@@ -110,6 +114,14 @@ class ControlPanelController extends BaseController {
 				$audit[$i]['actors'] = $tmp_act;
         	}
         }
+
+        $toshow = array();
+
+        foreach ($audit as $a) {
+        	if($a->notice->Periodico=='Tribuna') $toshow[] = $a;
+        }
+
+        return $toshow;
 
 		$actors = Actor::with(array(
                             'audit' => function($query) use($data_in,$data_end) {
