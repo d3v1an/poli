@@ -118,10 +118,10 @@ class ControlPanelController extends BaseController {
         $toshow = array();
 
         foreach ($audit as $a) {
-        	if($a->notice->Periodico->Nombre=='Tribuna') $toshow[] = $a;
+        	//if($a->notice->Periodico->Nombre=='Tribuna') $toshow[] = $a;
         }
 
-        return $toshow;
+        return $audit;
 
 		$actors = Actor::with(array(
                             'audit' => function($query) use($data_in,$data_end) {
