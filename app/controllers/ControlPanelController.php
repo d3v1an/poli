@@ -93,14 +93,14 @@ class ControlPanelController extends BaseController {
         if($a_count > 0) {
         	for ($i=0; $i < $a_count; $i++) {
 
-        		// $_note              = NoticiasDia::with('periodico')->find($a->note_id);
-          //       if(!$_note) $_note  = NoticiasSemana::with('periodico')->find($a->note_id);
-          //       if(!$_note) $_note  = NoticiasMensual::with('periodico')->find($a->note_id);
+        		$_note              = NoticiasDia::with('periodico')->find($audit[$i]->note_id);
+                if(!$_note) $_note  = NoticiasSemana::with('periodico')->find($audit[$i]->note_id);
+                if(!$_note) $_note  = NoticiasMensual::with('periodico')->find($audit[$i]->note_id);
 
-        		$rest 					= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/notice_range/' . $audit[$i]->note_id);
-				$notice 				= json_decode($rest);
+    //     		$rest 					= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/notice_range/' . $audit[$i]->note_id);
+				// $notice 				= json_decode($rest);
 
-				$audit[$i]['notice']	= $notice->notice[0];
+				$audit[$i]['notice']	= $_note;//$notice->notice[0];
 
 				$p_count = $audit[$i]->pieces->count();
 				$tmp_act = array();
