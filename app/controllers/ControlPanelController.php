@@ -87,7 +87,7 @@ class ControlPanelController extends BaseController {
             ->where('type','i')
             ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_in,$data_end) )
             ->get();
-
+        return $audit;
         $a_count = count($audit);
 
         if($a_count > 0) {
