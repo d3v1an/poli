@@ -83,7 +83,7 @@ class ControlPanelController extends BaseController {
 				$query->with('topic','type')
 					  ->orderBy('actor_id', 'ASC');
 			}))
-            ->where('character_id',$aid)
+            //->where('character_id',$aid)
             ->where('type','i')
             ->whereBetween( DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')") , array($data_in,$data_end) )
             ->get();
