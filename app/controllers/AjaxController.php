@@ -111,6 +111,8 @@ class AjaxController extends \BaseController {
 		$rest 									= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/data/' . $id . ':' . $date);
 		$data 									= json_decode($rest, true);
 
+		return Response::json(array($data,'mamalon'));
+
 		if($data['status']==false) return Response::json($data,200);
 
 		$newData 								= array();	
