@@ -531,6 +531,8 @@ var CharacterData   = function(id) {
         		$.each(collection.data, function(i, item){
 
                     _noteMatrix["_"+item.idEditorial]=item;
+                    
+                    if(item.audited) _noteMatrix["_"+item.idEditorial];
 
         			var _panel_item  = '<div class="panel panel-default-d3">';
         				_panel_item += '	<div class="panel-heading-d3">';
