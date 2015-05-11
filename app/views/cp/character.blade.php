@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="block-options pull-right">
-                    <input type="text" placeholder="yy-mm-dd" data-date-format="yy-mm-dd" class="form-control input-datepicker-close" name="calendar" id="calendar" style="margin-top:5px;" readonly>
+                    <input type="text" placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd" class="form-control input-datepicker-close" name="calendar" id="calendar" style="margin-top:5px;" readonly>
                 </div>
                 @endif
                 <ul class="nav nav-tabs" data-toggle="tabs">
