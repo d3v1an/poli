@@ -400,7 +400,8 @@ class AjaxController extends \BaseController {
 			    	
 			    	$time 			= strtotime(Input::get('date'));
 			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
-
+			    	
+			    	$piece->timestamps = false;
 			    	$piece->created_at = $ctimestamps;
 			    	$piece->updated_at = $ctimestamps;    	
 			    }
@@ -425,7 +426,8 @@ class AjaxController extends \BaseController {
 			    	
 			    	$time 			= strtotime(Input::get('date'));
 			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
-
+					
+					$piece->timestamps = false;
 			    	$audit->created_at = $ctimestamps;
 			    	$audit->updated_at = $ctimestamps;    	
 			    }
