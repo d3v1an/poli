@@ -236,7 +236,7 @@ var CharacterData   = function(id) {
 
             $('#calendar').on('change',function(){
                 var _to_url = base_path + '/cp/character/' + id + ':' + $(this).val();
-                console.log(_to_url);
+                window.location.href = _to_url;
                 return false;
             });
 
