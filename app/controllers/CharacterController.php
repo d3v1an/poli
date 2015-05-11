@@ -6,7 +6,20 @@ class CharacterController extends \BaseController {
 	{
 		$params = array(
 						'main_active' => 'characters',
-						'active' => $id
+						'active' => $id,
+						'ranged' => false
+					   );
+
+		return View::make('cp.character')->with($params);
+	}
+
+	public function characterRanged($id,$date)
+	{
+		$params = array(
+						'main_active' => 'characters',
+						'active' => $id,
+						'ranged' => true,
+						'date' => $date
 					   );
 
 		return View::make('cp.character')->with($params);

@@ -207,6 +207,19 @@ Route::get('/test/{actor}:{data_init}:{data_end}', function($actor,$data_init,$d
 
 });
 
+Route::get('/test/{date}', function($date)
+{
+    // Date difs
+    $isRanged   = true;
+    $miFecha    = $date;
+    $today      = date('Y-m-d', time());
+    $datToCheck = $isRanged ? new DateTime($miFecha) : null;
+    $dateToday  = $isRanged ? new DateTime($today) : null;
+    $interval   = $isRanged ? $datToCheck->diff($dateToday) : null;
+
+    return Response::json(array($interval));
+});
+
 // Entrada Inicial
 Route::get('/', function()
 {
@@ -228,6 +241,9 @@ Route::group(['prefix' => 'cp','before' => 'auth.cp'], function ()
     Route::get('/', 'ControlPanelController@reportPrinted');
 
     // Peronajes
+
+        // Usuarios - administracion
+        Route::get('/character/{id}:{date}', 'CharacterController@characterRanged');//->where('id', '[0-9]+');
 
         // Usuarios - administracion
         Route::get('/character/{id}', 'CharacterController@character');//->where('id', '[0-9]+');
@@ -391,9 +407,15 @@ Route::group(['prefix' => 'ajax'], function () {
     // Character - contadores de notas por personaje
     Route::get('charcounter/{id}', 'AjaxController@characterCounter');
 
+    // Character - contadores de notas por personaje por fecha
+    Route::get('data/{id}:{date}', 'AjaxController@characterDataDate');
+
     // Character - contadores de notas por personaje
     Route::get('data/{id}', 'AjaxController@characterData');
 
+    // Current ids - Obtenemos los id de lso registros ya auditados
+    Route::get('cur_ids/{id}:{date}', 'AjaxController@cursIdsDate');
+    
     // Current ids - Obtenemos los id de lso registros ya auditados
     Route::get('cur_ids/{id}', 'AjaxController@cursIds');
 

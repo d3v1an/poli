@@ -16,6 +16,105 @@ class AjaxController extends \BaseController {
 		$rest 									= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/data/' . $id);
 		$data 									= json_decode($rest, true);
 
+		return $data;
+
+		if($data['status']==false) return Response::json($data,200);
+
+		$newData 								= array();	
+		$newData['status']						= true;
+		$newData['message']						= $data['message'];
+		$newData['data']						= array();
+		$newData['data']['id'] 					= $data['data']['id'];
+		$newData['data']['character'] 			= $data['data']['character'];
+		$newData['data']['count'] 				= $data['data']['count'];
+
+		$newData['data']['main']['count']		= $data['data']['main']['count'];
+		$newData['data']['main']['data']		= array();
+		if(count($data['data']['main']['data'])<1) $newData['data']['main']['data'] = array();
+		foreach ($data['data']['main']['data'] as $n) {
+
+			$ad 	= Audit::with('Pieces')->where('note_id',$n['idEditorial'])->first();
+			$exists = !is_null($ad);
+
+			if($exists) {
+				$n['audited'] 	= true;
+				$n['pieces'] 	= $ad->pieces;
+			} else {
+				$n['audited'] 	= false;
+				$n['pieces'] 	= array();
+			}
+
+			array_push($newData['data']['main']['data'],$n);
+		}
+
+		$newData['data']['estados']['count']	= $data['data']['estados']['count'];
+		$newData['data']['estados']['data']		= array();
+		if(count($data['data']['estados']['data'])<1) $newData['data']['estados']['data'] = array();
+		foreach ($data['data']['estados']['data'] as $n) {
+			
+			$ad 	= Audit::with('Pieces')->where('note_id',$n['idEditorial'])->first();
+			$exists = !is_null($ad);
+
+			if($exists) {
+				$n['audited'] 	= true;
+				$n['pieces'] 	= $ad->pieces;
+			} else {
+				$n['audited'] 	= false;
+				$n['pieces'] 	= array();
+			}
+
+			array_push($newData['data']['estados']['data'],$n);
+		}
+
+		$newData['data']['revistas']['count']	= $data['data']['revistas']['count'];
+		$newData['data']['revistas']['data']	= array();
+		if(count($data['data']['revistas']['data'])<1) $newData['data']['revistas']['data'] = array();
+		foreach ($data['data']['revistas']['data'] as $n) {
+			
+			$ad 	= Audit::with('Pieces')->where('note_id',$n['idEditorial'])->first();
+			$exists = !is_null($ad);
+
+			if($exists) {
+				$n['audited'] 	= true;
+				$n['pieces'] 	= $ad->pieces;
+			} else {
+				$n['audited'] 	= false;
+				$n['pieces'] 	= array();
+			}
+
+			array_push($newData['data']['revistas']['data'],$n);
+		}
+
+		$newData['data']['portales']['count']	= $data['data']['portales']['count'];
+		$newData['data']['portales']['data']	= array();
+		if(count($data['data']['portales']['data'])<1) $newData['data']['portales']['data'] = array();
+		foreach ($data['data']['portales']['data'] as $n) {
+			
+			$ad 	= Audit::with('Pieces')->where('note_id',$n['idEditorial'])->first();
+			$exists = !is_null($ad);
+
+			if($exists) {
+				$n['audited'] 	= true;
+				$n['pieces'] 	= $ad->pieces;
+			} else {
+				$n['audited'] 	= false;
+				$n['pieces'] 	= array();
+			}
+
+			array_push($newData['data']['portales']['data'],$n);
+		}
+		// return dd($data);
+		return Response::json($newData,200);
+	}
+
+	// Obtenemos la informacion  de las notas del personaje
+	public function characterDataDate($id,$date)
+	{
+		$rest 									= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/data/' . $id . ':' . $date);
+		$data 									= json_decode($rest, true);
+
+		return $data;
+
 		if($data['status']==false) return Response::json($data,200);
 
 		$newData 								= array();	
@@ -108,6 +207,12 @@ class AjaxController extends \BaseController {
 	// Obtenemos los ids auditados
 	public function cursIds($id) {
 		$ids = Audit::where( DB::raw('DATE_FORMAT(created_at,\'%Y-%m-%d\')'), '=', DB::raw('CURDATE()') ) ->get();
+		return Response::json($ids,200);
+	}
+
+	// Obtenemos los ids auditados por fecha
+	public function cursIdsDate($id,$date) {
+		$ids = Audit::where( DB::raw('DATE_FORMAT(created_at,\'%Y-%m-%d\')'), '=', $date ) ->get();
 		return Response::json($ids,200);
 	}
 
@@ -291,6 +396,15 @@ class AjaxController extends \BaseController {
 			    $piece->type_id 	= $spl_pz[2];
 			    $piece->status 		= $spl_pz[3];
 
+			    if(Input::get('ranged')==true) {
+			    	
+			    	$time 			= strtotime(Input::get('date'));
+			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
+
+			    	$piece->created_at = $ctimestamps;
+			    	$piece->updated_at = $ctimestamps;    	
+			    }
+
 			    if(!$piece->save()) {
 			    	DB::rollback();
 			    	$done = false;
@@ -306,6 +420,15 @@ class AjaxController extends \BaseController {
 			    $audit->audited 		= true;
 			    $audit->user_id 		= Auth::user()->id;
 			    $audit->character_id 	= Input::get('chracter');
+
+			    if(Input::get('ranged')==true) {
+			    	
+			    	$time 			= strtotime(Input::get('date'));
+			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
+
+			    	$audit->created_at = $ctimestamps;
+			    	$audit->updated_at = $ctimestamps;    	
+			    }
 			    
 			    if(!$audit->save()) {
 			    	DB::rollback();

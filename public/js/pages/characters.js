@@ -176,11 +176,13 @@ var CharacterData   = function(id) {
 
                 var _form           = $("#note-detaill");
 
+                var _ranged         = ($("#date",_form).val()=='none' ? false : true);
+                var _date           = $("#date",_form).val();
                 var _noteId         = $("#note_id",_form).val();
                 var _metaStr        = _meta.join("|");
                 var _character_id   = _current_character;
 
-                $.d3POST(base_path+'/ajax/add_audit',{note_id:_noteId,meta:_metaStr,chracter:_character_id},function(data){
+                $.d3POST(base_path+'/ajax/add_audit',{note_id:_noteId,meta:_metaStr,chracter:_character_id, ranged:_ranged,date:_date},function(data){
                     //console.log(data);
                     if(data.status==true) {
                         $.bootstrapGrowl(data.message, {
@@ -227,11 +229,21 @@ var CharacterData   = function(id) {
                 
                 _form.trigger('reset');
             })
+
         },
 
- 		load: function(id) {
+ 		load: function(id,range) {
 
-            $.d3GET(base_path+'/ajax/cur_ids/'+id,{},function(data){
+            $('#calendar').on('change',function(){
+                var _to_url = base_path + '/cp/character/' + id + ':' + $(this).val();
+                console.log(_to_url);
+                return false;
+            });
+
+            // Section 1
+            var _ids_url = (range!=false ? base_path+'/ajax/cur_ids/'+id + ':' + range : base_path+'/ajax/cur_ids/'+id);
+
+            $.d3GET(_ids_url,{},function(data){
                 if(data.length > 0) {
                     $.each(data, function(i, item){
                         _auditedIds.push(item.note_id);
@@ -239,7 +251,25 @@ var CharacterData   = function(id) {
                 }
             }, false);
 
- 			$.d3GET(base_path+'/ajax/data/'+id,{},function(data){
+            // Prueba de ids [Section 1]
+            /*
+                Si se trae datos segun el rango de fechas
+            */
+            // console.log(_auditedIds);
+            // return false;
+
+            // Section 2
+            var _data_url = (range!=false ? base_path+'/ajax/data/'+id + ':' + range : base_path+'/ajax/data/'+id);
+
+ 			$.d3GET(_data_url,{},function(data){
+
+                // Prueba de ids [Section 2]
+                /*
+                    Si se trae datos segun el rango de fechas
+                */
+                // console.log(data);
+                // console.log('TA01');
+                // return false;
  				
                 if(data.status == true) {
 

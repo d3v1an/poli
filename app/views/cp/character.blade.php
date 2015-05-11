@@ -33,6 +33,9 @@
                         </ul>
                     </div>
                 </div>
+                <div class="block-options pull-right">
+                    <input type="text" placeholder="yy-mm-dd" data-date-format="yy-mm-dd" class="form-control input-datepicker-close" name="calendar" id="calendar" style="margin-top:5px;" readonly>
+                </div>
                 @endif
                 <ul class="nav nav-tabs" data-toggle="tabs">
                     <li class="active"><a href="#tab-main">Sonora <span class="tab-main-count"></span></a></li>
@@ -107,6 +110,7 @@
 
                     <input type="hidden" id="note_id" name="note_id">
                     <input type="hidden" id="meta" name="meta">
+                    <input type="hidden" id="date" name="date" value="{{ isset($ranged) && $ranged ? $date : 'none' }}">
                     <fieldset>
 
                         <legend><span class="label pull-right" id="label-audit"></span><i class="fa fa-angle-right"></i> Periodico - <span class="text-muted" id="label-fecha"></span></legend>
@@ -360,9 +364,10 @@
     <script>
         var _res_ip             = '{{ Config::get('rest.ip') }}';
         var _current_character  = {{ $active }};
+        var _range              = {{ $ranged==false ? 'false' : '"' . $date . '";'  }};
         $(function(){
             CharacterData.init();
-            CharacterData.load(_current_character);
+            CharacterData.load(_current_character, _range);
             CharacterData.actors();
             CharacterData.themes();
             CharacterData.types();
