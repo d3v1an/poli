@@ -396,20 +396,28 @@ class AjaxController extends \BaseController {
 			    $piece->type_id 	= $spl_pz[2];
 			    $piece->status 		= $spl_pz[3];
 
-			    if(Input::get('ranged')==true) {
+			    // if(Input::get('ranged')==true) {
 			    	
-			    	$time 			= strtotime(Input::get('date'));
-			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
-			    	
-			    	$piece->timestamps = false;
-			    	$piece->created_at = $ctimestamps;
-			    	$piece->updated_at = $ctimestamps;    	
-			    }
+			    // 	$time 			= strtotime(Input::get('date'));
+			    // 	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
+
+			    // 	$piece->timestamps = false;
+			    // 	$piece->created_at = $ctimestamps;
+			    // 	$piece->updated_at = $ctimestamps;    	
+			    // }
 
 			    if(!$piece->save()) {
 			    	DB::rollback();
 			    	$done = false;
 			    	break;
+			    }
+
+			    if(Input::get('ranged')==true) {
+			    	
+			    	$time 			= strtotime(Input::get('date'));
+			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
+
+			    	DB::select("UPDATE pieces SET created_at='{$ctimestamps}', updated_at='{$ctimestamps}' WHERE id={$piece->id}");
 			    }
 
 				$acts[] = $piece->id;
@@ -422,19 +430,27 @@ class AjaxController extends \BaseController {
 			    $audit->user_id 		= Auth::user()->id;
 			    $audit->character_id 	= Input::get('chracter');
 
-			    if(Input::get('ranged')==true) {
+			  //   if(Input::get('ranged')==true) {
 			    	
-			    	$time 			= strtotime(Input::get('date'));
-			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
+			  //   	$time 			= strtotime(Input::get('date'));
+			  //   	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
 					
-					$piece->timestamps = false;
-			    	$audit->created_at = $ctimestamps;
-			    	$audit->updated_at = $ctimestamps;    	
-			    }
+					// $piece->timestamps = false;
+			  //   	$audit->created_at = $ctimestamps;
+			  //   	$audit->updated_at = $ctimestamps;    	
+			  //   }
 			    
 			    if(!$audit->save()) {
 			    	DB::rollback();
 			    	return Response::json(array('status' => false, 'message' => 'Ocurrio un problema al guardar revision'),200);
+			    }
+
+			    if(Input::get('ranged')==true) {
+			    	
+			    	$time 			= strtotime(Input::get('date'));
+			    	$ctimestamps 	= DateTime::createFromFormat('Y-m-d g:i:s', trim($time));
+
+			    	DB::select("UPDATE audits SET created_at='{$ctimestamps}', updated_at='{$ctimestamps}' WHERE id={$audit->id}");
 			    }
 			    
 			    $audit->pieces()->sync($acts);
