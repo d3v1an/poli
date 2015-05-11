@@ -260,7 +260,7 @@ var CharacterData   = function(id) {
 
             // Section 2
             var _data_url = (range!=false ? base_path+'/ajax/data/'+id + ':' + range : base_path+'/ajax/data/'+id);
-
+            console.log(_data_url);
  			$.d3GET(_data_url,{},function(data){
 
                 // Prueba de ids [Section 2]
