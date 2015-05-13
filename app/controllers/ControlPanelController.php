@@ -1823,6 +1823,8 @@ class ControlPanelController extends BaseController {
 
 				$_note  = NoticiasDia::with('periodico')->find($a->note_id);
 				
+				if(!isset($_note->Fecha)) continue;
+
 				$md['fecha'] 		= $_note->Fecha;
 				$md['autor'] 		= ucwords(strtolower($_note->Autor));
 				$md['periodico']	= $_note->periodico->Nombre;
@@ -1946,6 +1948,9 @@ class ControlPanelController extends BaseController {
 
 	            $i=2;
 	            foreach ($data as $d) {
+
+	            	if(!isset($d["fecha"])) continue;
+
 	            	$sheet->row($i, array(
 
 		                $d["fecha"],
