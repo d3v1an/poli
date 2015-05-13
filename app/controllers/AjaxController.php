@@ -402,7 +402,7 @@ class AjaxController extends \BaseController {
 			    	break;
 			    }
 
-			    if(Input::get('ranged')==true) DB::update( DB::raw("UPDATE pieces SET created_at='{$ctimestamps} 00:00:00', updated_at='{$ctimestamps} 00:00:00' WHERE id={$piece->id}") );
+			    //if(Input::get('ranged')==true) DB::update( DB::raw("UPDATE pieces SET created_at='{$ctimestamps} 00:00:00', updated_at='{$ctimestamps} 00:00:00' WHERE id={$piece->id}") );
 
 				$acts[] = $piece->id;
 			}
@@ -419,7 +419,7 @@ class AjaxController extends \BaseController {
 			    	return Response::json(array('status' => false, 'message' => 'Ocurrio un problema al guardar revision'),200);
 			    }
 
-			    if(Input::get('ranged')==true) DB::update( DB::raw("UPDATE audits SET created_at='{$ctimestamps}', updated_at='{$ctimestamps}' WHERE id={$audit->id}") );
+			    //if(Input::get('ranged')==true) DB::update( DB::raw("UPDATE audits SET created_at='{$ctimestamps}', updated_at='{$ctimestamps}' WHERE id={$audit->id}") );
 			    
 			    $audit->pieces()->sync($acts);
 
