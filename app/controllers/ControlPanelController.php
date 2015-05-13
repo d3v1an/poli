@@ -31,7 +31,7 @@ class ControlPanelController extends BaseController {
         		$rest 					= cURL::get('http://' . Config::get('rest.ip') . '/siscap.la/public/api/v1/notice/' . $audit[$i]->note_id);
 				$notice 				= json_decode($rest);
 
-				//if(!isset($notice->notice)) return Response::json(array($audit[$i]));
+				if(!isset($notice->notice)) return continue;//Response::json(array($audit[$i]));
 				$audit[$i]['notice']	= $notice->notice[0];
 
 				$p_count = $audit[$i]->pieces->count();
