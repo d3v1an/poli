@@ -113,6 +113,7 @@
                         <tbody>
                             <?php $i=0; ?>
                             @foreach($audits as $audit)
+                            @if(isset($audit->notice->Titulo))
                             <tr id="_tr_{{ $audit->id }}">
                                 <td class="text-center"><input type="checkbox" id="checkbox1-{{ $i+1 }}" name="checkbox1-{{ $i+1 }}" data-id="{{ $audit->id }}"></td>
                                 <td>{{ $audit->created_at }}</td>
@@ -125,6 +126,7 @@
                                 <td><button data-aid="{{ $audit->id }}" data-tid="_tr_{{ $audit->id }}" class="btn btn-xs btn-danger btn-del-audit"><i class="gi gi-remove_2"></i></button></td>
                             </tr>
                             <?php $i++; ?>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
